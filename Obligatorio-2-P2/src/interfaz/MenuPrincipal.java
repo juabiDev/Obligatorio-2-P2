@@ -4,18 +4,20 @@
  */
 package interfaz;
 
+import dominio.Sistema;
 import java.awt.Component;
 
 /**
  *
  * @author User
  */
-public class Frame extends javax.swing.JFrame {
-
+public class MenuPrincipal extends javax.swing.JFrame {
+    private Sistema sistema;
     /**
      * Creates new form NewJFrame
      */
-    public Frame() {
+    public MenuPrincipal() {
+        sistema = new Sistema();
         initComponents();
         this.setSize(1000,800);
     }
@@ -94,9 +96,19 @@ public class Frame extends javax.swing.JFrame {
         jMenu2.add(jItemREvaluador);
 
         jItemREntrevista.setText("Entrevista");
+        jItemREntrevista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jItemREntrevistaActionPerformed(evt);
+            }
+        });
         jMenu2.add(jItemREntrevista);
 
         jItemRPuesto.setText("Puesto");
+        jItemRPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jItemRPuestoActionPerformed(evt);
+            }
+        });
         jMenu2.add(jItemRPuesto);
 
         jMenuBar2.add(jMenu2);
@@ -104,6 +116,11 @@ public class Frame extends javax.swing.JFrame {
         jMenu1.setText("Bajas");
 
         jItemBPostulante.setText("Postulante");
+        jItemBPostulante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jItemBPostulanteActionPerformed(evt);
+            }
+        });
         jMenu1.add(jItemBPostulante);
 
         jMenuBar2.add(jMenu1);
@@ -111,9 +128,19 @@ public class Frame extends javax.swing.JFrame {
         jMenu3.setText("Consultas");
 
         jItemCPuesto.setText("Puesto");
+        jItemCPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jItemCPuestoActionPerformed(evt);
+            }
+        });
         jMenu3.add(jItemCPuesto);
 
         jItemCHistorial.setText("Historial Postulante");
+        jItemCHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jItemCHistorialActionPerformed(evt);
+            }
+        });
         jMenu3.add(jItemCHistorial);
 
         jItemCEstadisticas.setText("Estadisticas por Temática");
@@ -129,6 +156,11 @@ public class Frame extends javax.swing.JFrame {
         jMenu4.setText("Fin");
 
         jItemFCerrar.setText("Cerrar Sesión");
+        jItemFCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jItemFCerrarActionPerformed(evt);
+            }
+        });
         jMenu4.add(jItemFCerrar);
 
         jMenuBar2.add(jMenu4);
@@ -139,24 +171,62 @@ public class Frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jItemRTematicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemRTematicaActionPerformed
-       RegistroTematica ventanaTematica = new RegistroTematica();
+       RegistroTematica ventanaTematica = new RegistroTematica(sistema);
        ventanaTematica.setVisible(true);
        ventanaTematica.setLocation(50, 50);
     }//GEN-LAST:event_jItemRTematicaActionPerformed
 
     private void jItemREvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemREvaluadorActionPerformed
-        // TODO add your handling code here:
+       RegistroEvaluador ventanaEvaluador = new RegistroEvaluador();
+       ventanaEvaluador.setVisible(true);
+       ventanaEvaluador.setLocation(50, 50);
     }//GEN-LAST:event_jItemREvaluadorActionPerformed
 
     private void jItemCEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemCEstadisticasActionPerformed
-        // TODO add your handling code here:
+       ConsultaTematica ventanaCTematica = new ConsultaTematica();
+       ventanaCTematica.setVisible(true);
+       ventanaCTematica.setLocation(50, 50);
     }//GEN-LAST:event_jItemCEstadisticasActionPerformed
 
     private void jItemRPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemRPostulanteActionPerformed
-       RegistroPostulante ventanaPostulante = new RegistroPostulante();
+       RegistroPostulante ventanaPostulante = new RegistroPostulante(sistema);
        ventanaPostulante.setVisible(true);
        ventanaPostulante.setLocation(50, 50);
     }//GEN-LAST:event_jItemRPostulanteActionPerformed
+
+    private void jItemBPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemBPostulanteActionPerformed
+       BajaPostulante ventanaBaja = new BajaPostulante();
+       ventanaBaja.setVisible(true);
+       ventanaBaja.setLocation(50, 50);
+    }//GEN-LAST:event_jItemBPostulanteActionPerformed
+
+    private void jItemREntrevistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemREntrevistaActionPerformed
+       RegistroEntrevista ventanaEntrevista = new RegistroEntrevista();
+       ventanaEntrevista.setVisible(true);
+       ventanaEntrevista.setLocation(50, 50);
+    }//GEN-LAST:event_jItemREntrevistaActionPerformed
+
+    private void jItemRPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemRPuestoActionPerformed
+        RegistroPuesto ventanaPuesto = new RegistroPuesto();
+        ventanaPuesto.setVisible(true);
+        ventanaPuesto.setLocation(50, 50);
+    }//GEN-LAST:event_jItemRPuestoActionPerformed
+
+    private void jItemCPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemCPuestoActionPerformed
+        ConsultaPuesto ventanaCPuesto = new ConsultaPuesto();
+        ventanaCPuesto.setVisible(true);
+        ventanaCPuesto.setLocation(50, 50);
+    }//GEN-LAST:event_jItemCPuestoActionPerformed
+
+    private void jItemCHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemCHistorialActionPerformed
+        HistorialPostulante ventanaHistorialP = new HistorialPostulante();
+        ventanaHistorialP.setVisible(true);
+        ventanaHistorialP.setLocation(50, 50);
+    }//GEN-LAST:event_jItemCHistorialActionPerformed
+
+    private void jItemFCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemFCerrarActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jItemFCerrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

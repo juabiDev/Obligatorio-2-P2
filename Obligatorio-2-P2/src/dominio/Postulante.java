@@ -5,19 +5,20 @@
 package dominio;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
  * @author User
  */
 public class Postulante extends Persona {
-    private long telefono;
+    private String telefono;
     private String mail;
     private String linkedin;
     private String formato;
-    private ArrayList<String> temas;
+    private HashMap<String,String> temas;
 
-    public Postulante(long telefono, String mail, String linkedin, String formato, ArrayList<String> temas, String nombre, long cedula, String direccion) {
+    public Postulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) {
         super(nombre, cedula, direccion);
         this.telefono = telefono;
         this.mail = mail;
@@ -26,11 +27,11 @@ public class Postulante extends Persona {
         this.temas = temas;
     }
 
-    public long getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(long telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
@@ -58,11 +59,11 @@ public class Postulante extends Persona {
         this.formato = formato;
     }
 
-    public ArrayList<String> getTemas() {
+    public HashMap<String,String> getTemas() {
         return temas;
     }
 
-    public void setTemas(ArrayList<String> temas) {
+    public void setTemas(HashMap<String,String> temas) {
         this.temas = temas;
     }
 

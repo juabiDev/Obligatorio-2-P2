@@ -3,17 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package interfaz;
-
+import dominio.*;
+import javax.swing.JOptionPane;
 /**
  *
  * @author User
  */
 public class RegistroTematica extends javax.swing.JFrame {
-
+    private Sistema sistema;
     /**
      * Creates new form RegistroTematica2
      */
-    public RegistroTematica() {
+    public RegistroTematica(Sistema unSistema) {
+        sistema = unSistema;
         initComponents();
         this.setSize(600,350);
     }
@@ -33,7 +35,7 @@ public class RegistroTematica extends javax.swing.JFrame {
         txtNombreTematica = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtDescripcionTematica = new javax.swing.JTextArea();
         btnCancelarTematica = new javax.swing.JButton();
         btnRegistrarTematica = new javax.swing.JButton();
 
@@ -55,9 +57,9 @@ public class RegistroTematica extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setText("Descripción:");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtDescripcionTematica.setColumns(20);
+        txtDescripcionTematica.setRows(5);
+        jScrollPane2.setViewportView(txtDescripcionTematica);
 
         btnCancelarTematica.setText("Cancelar");
         btnCancelarTematica.addActionListener(new java.awt.event.ActionListener() {
@@ -67,6 +69,11 @@ public class RegistroTematica extends javax.swing.JFrame {
         });
 
         btnRegistrarTematica.setText("Registrar");
+        btnRegistrarTematica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarTematicaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,41 +129,23 @@ public class RegistroTematica extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarTematicaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistroTematica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistroTematica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistroTematica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistroTematica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnRegistrarTematicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarTematicaActionPerformed
+        String nombre = txtNombreTematica.getText();
+        String descripcion = txtDescripcionTematica.getText();
+        boolean existeTematica = sistema.agregarTematica(nombre, descripcion);
+        
+        if(nombre.trim().equals("") || descripcion.trim().equals("")) {
+           JOptionPane.showMessageDialog(this, "Hay campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if(existeTematica) {
+           JOptionPane.showMessageDialog(this, "Tematica ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+           JOptionPane.showMessageDialog(this, "Tematica creada", "OK", JOptionPane.INFORMATION_MESSAGE);
+           txtDescripcionTematica.setText("");
+           txtNombreTematica.setText("");
         }
-        //</editor-fold>
-        //</editor-fold>
+        
+    }//GEN-LAST:event_btnRegistrarTematicaActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RegistroTematica().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarTematica;
@@ -166,7 +155,7 @@ public class RegistroTematica extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea txtDescripcionTematica;
     private javax.swing.JTextField txtNombreTematica;
     // End of variables declaration//GEN-END:variables
 }

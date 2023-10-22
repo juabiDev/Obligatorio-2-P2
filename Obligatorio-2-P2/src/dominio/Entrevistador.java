@@ -11,7 +11,7 @@ package dominio;
 public class Entrevistador extends Persona {
     private int anioIngreso;
     
-    public Entrevistador(String nombre, long cedula, String direccion, int anioIngreso) {
+    public Entrevistador(String nombre, String cedula, String direccion, int anioIngreso) {
         super(nombre, cedula, direccion);
         this.anioIngreso = anioIngreso;
     }  

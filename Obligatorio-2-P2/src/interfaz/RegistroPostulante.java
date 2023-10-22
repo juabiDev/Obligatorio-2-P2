@@ -4,16 +4,22 @@
  */
 package interfaz;
 
+import dominio.Sistema;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+
 /**
  *
  * @author User
  */
 public class RegistroPostulante extends javax.swing.JFrame {
-
+    private Sistema sistema;
+    private String formatoaux;
     /**
      * Creates new form RegistroPostulante2
      */
-    public RegistroPostulante() {
+    public RegistroPostulante(Sistema unSistema) {
+        sistema = unSistema;
         initComponents();
         this.setSize(630, 450);
     }
@@ -27,6 +33,7 @@ public class RegistroPostulante extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -75,11 +82,29 @@ public class RegistroPostulante extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel8.setText("Formato:");
 
+        buttonGroup1.add(radioRemoto);
         radioRemoto.setText("Remoto");
+        radioRemoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioRemotoActionPerformed(evt);
+            }
+        });
 
+        buttonGroup1.add(radioPresencial);
         radioPresencial.setText("Presencial");
+        radioPresencial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioPresencialActionPerformed(evt);
+            }
+        });
 
+        buttonGroup1.add(radioMixto);
         radioMixto.setText("Mixto");
+        radioMixto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioMixtoActionPerformed(evt);
+            }
+        });
 
         btnSiguientePostulante.setText("Siguiente");
         btnSiguientePostulante.addActionListener(new java.awt.event.ActionListener() {
@@ -179,51 +204,49 @@ public class RegistroPostulante extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguientePostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguientePostulanteActionPerformed
-        ExperienciaPostulante ventanaAux = new ExperienciaPostulante();
-        ventanaAux.setLocation(50, 50);
-        ventanaAux.setSize(200, 200);
-        ventanaAux.setVisible(true);
+        //ExperienciaPostulante ventanaAux = new ExperienciaPostulante();
+        //ventanaAux.setLocation(50, 50);
+        //ventanaAux.setSize(500, 325);
+        //ventanaAux.setVisible(true);
+        
+        String nombre = txtNombrePostulante.getText();
+        String cedula = txtPostulanteCedula.getText();
+        String direccion = txtDireccionPostulante.getText();
+        String telefono = txtTelefonoPostulante.getText();
+        String mail = txtMailPostulante.getText();
+        String linkedin = txtPostulanteLinkedin.getText();
+        String formato = formatoaux;
+        
+        boolean valido = sistema.validarPostulante(nombre, cedula, direccion, telefono, mail, linkedin, formato);
+        
+        if(valido) {
+            ExperienciaPostulante ventanaAux = new ExperienciaPostulante(sistema, cedula);
+            ventanaAux.setLocation(50, 50);
+            ventanaAux.setSize(500, 325);
+            ventanaAux.setVisible(true);
+        } else {
+           JOptionPane.showMessageDialog(this, "Persona ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnSiguientePostulanteActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistroPostulante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistroPostulante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistroPostulante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistroPostulante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void radioRemotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioRemotoActionPerformed
+       formatoaux = buttonGroup1.getSelection().isSelected() ? "remoto" : "";
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RegistroPostulante().setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_radioRemotoActionPerformed
+
+    private void radioPresencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioPresencialActionPerformed
+       formatoaux = buttonGroup1.getSelection().isSelected() ? "presencial" : "";
+    }//GEN-LAST:event_radioPresencialActionPerformed
+
+    private void radioMixtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioMixtoActionPerformed
+       formatoaux = buttonGroup1.getSelection().isSelected() ? "mixto" : "";
+    }//GEN-LAST:event_radioMixtoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarPostulante;
     private javax.swing.JButton btnSiguientePostulante;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

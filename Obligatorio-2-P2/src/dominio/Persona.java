@@ -10,16 +10,16 @@ package dominio;
  */
 public class Persona {
     private String nombre;
-    private long cedula;
+    private String cedula;
     private String direccion;
 
     public Persona() {
         this.nombre = "";
-        this.cedula = 0;
+        this.cedula = "";
         this.direccion = "";
     }
 
-    public Persona(String nombre, long cedula, String direccion) {
+    public Persona(String nombre, String cedula, String direccion) {
         this.nombre = nombre;
         this.cedula = cedula;
         this.direccion = direccion;
@@ -34,11 +34,11 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public long getCedula() {
+    public String getCedula() {
         return cedula;
     }
 
-    public void setCedula(long cedula) {
+    public void setCedula(String cedula) {
         this.cedula = cedula;
     }
 

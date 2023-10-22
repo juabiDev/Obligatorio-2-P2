@@ -10,8 +10,8 @@ package interfaz;
  */
 public class interfaz {
     public static void main(String [] args) {
-        Frame f = new Frame();
-        f.setVisible(true);
+        InicioPrograma i = new InicioPrograma();
+        i.setVisible(true);
     }
     
 }
