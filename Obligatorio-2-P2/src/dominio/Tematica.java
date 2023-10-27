@@ -4,11 +4,13 @@
  */
 package dominio;
 
+import java.io.Serializable;
+
 /**
  *
  * @author User
  */
-public class Tematica {
+public class Tematica implements Serializable {
     private String nombre;
     private String descripcion;
     

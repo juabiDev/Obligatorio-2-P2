@@ -4,10 +4,15 @@
  */
 package interfaz;
 
+import dominio.Postulante;
 import dominio.Sistema;
 import java.awt.List;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
@@ -17,15 +22,36 @@ import javax.swing.ListModel;
  */
 public class ExperienciaPostulante extends javax.swing.JFrame {
     private Sistema sistema;
-    private String cedula;
+    private Postulante postulante;
+    private HashMap<String,String> temasPostulantes;
+    private RegistroPostulante referencia;
+
     /**
      * Creates new form ExperienciaPostulante2
      */
-    public ExperienciaPostulante(Sistema unSistema, String unaCedula) {
+    public ExperienciaPostulante(Sistema unSistema, Postulante unPostulante, RegistroPostulante unaReferencia) {
         sistema = unSistema;
-        cedula = unaCedula;
+        postulante = unPostulante;
         initComponents();
-        comboTemas.setModel(new javax.swing.DefaultComboBoxModel<>(sistema.getNombresTematicas()));
+        sistema.getTematicas().forEach((tema) -> {
+            comboTemas.addItem(tema.getNombre());
+        });
+        temasPostulantes = new HashMap<>();
+        referencia = unaReferencia;
+
+    }
+    
+    public void cargarLista() {
+        String[] elementos = new String[temasPostulantes.size()];
+        int contador = 0;
+        
+        for (Map.Entry<String, String> entry : temasPostulantes.entrySet()) {
+            String aux = entry.getKey() + " (" + entry.getValue() + ")";
+            elementos[contador] = aux;
+            contador++;
+        }
+        
+        listaTemas.setListData(elementos);
     }
 
     /**
@@ -46,10 +72,10 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaTemas = new javax.swing.JList<>();
-        jButton2 = new javax.swing.JButton();
+        listaTemas = new javax.swing.JList();
+        btnEliminarTema = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        btnAgregarExperiencia = new javax.swing.JButton();
+        btnRegistrarPostulante = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Experiencia Postulante");
@@ -57,7 +83,6 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
 
         jLabel2.setText("Tema:");
 
-        comboTemas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboTemas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboTemasActionPerformed(evt);
@@ -78,12 +103,18 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
 
         jLabel4.setText("Experiencia:");
 
+        listaTemas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaTemas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaTemasValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(listaTemas);
 
-        jButton2.setText("Eliminar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarTema.setText("Eliminar");
+        btnEliminarTema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnEliminarTemaActionPerformed(evt);
             }
         });
 
@@ -94,10 +125,10 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
             }
         });
 
-        btnAgregarExperiencia.setText("Agregar");
-        btnAgregarExperiencia.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarPostulante.setText("Registrar");
+        btnRegistrarPostulante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarExperienciaActionPerformed(evt);
+                btnRegistrarPostulanteActionPerformed(evt);
             }
         });
 
@@ -127,11 +158,11 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
                                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnEliminarTema, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAgregarExperiencia, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(btnRegistrarPostulante, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -156,11 +187,11 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addComponent(btnEliminarTema))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarExperiencia)
+                    .addComponent(btnRegistrarPostulante)
                     .addComponent(jButton3))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -179,46 +210,44 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
         String temaSeleccionado = (String) comboTemas.getSelectedItem();
         int valor = (int) txtNivel.getValue();
         String nivel = String.valueOf(valor);
+
+        String tema = temaSeleccionado + " (" + nivel + ")";
         
-        
-        // Falta hacer que los temas no se repitan y agregarlo junto con el nivel
-        
-        String[] listaTemasModificado = new String[listaTemas.getModel().getSize() + 1];
-        int contador = 0;
-        
-        for(int i = 0; i < listaTemasModificado.length; i++) {
-            if(i != listaTemasModificado.length - 1) {
-                listaTemasModificado[contador] = listaTemas.getModel().getElementAt(i);
-            } else {
-                listaTemasModificado[contador] = temaSeleccionado;
-            }
-            
-            contador++;
+        if(!this.temasPostulantes.containsKey(temaSeleccionado)) {
+            this.temasPostulantes.put(temaSeleccionado, nivel);
         }
-
-        listaTemas.setListData(listaTemasModificado);
-
+        
+        cargarLista();
       
     }//GEN-LAST:event_btnAgregarTemaActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnEliminarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTemaActionPerformed
+       String clave = listaTemas.getSelectedValue().toString().split(" ")[0];
+       temasPostulantes.remove(clave);
+       cargarLista();
+    }//GEN-LAST:event_btnEliminarTemaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void btnAgregarExperienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarExperienciaActionPerformed
-        // AGREGAR POSTULANTE
-    }//GEN-LAST:event_btnAgregarExperienciaActionPerformed
+    private void btnRegistrarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPostulanteActionPerformed
+        sistema.agregarPostulante(postulante.getNombre(), postulante.getCedula(), postulante.getDireccion(), postulante.getDireccion(), postulante.getFormato(), 
+                postulante.getLinkedin(), postulante.getMail(), temasPostulantes);
+        this.dispose();
+        referencia.dispose();
+    }//GEN-LAST:event_btnRegistrarPostulanteActionPerformed
+
+    private void listaTemasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaTemasValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listaTemasValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregarExperiencia;
     private javax.swing.JButton btnAgregarTema;
+    private javax.swing.JButton btnEliminarTema;
+    private javax.swing.JButton btnRegistrarPostulante;
     private javax.swing.JComboBox<String> comboTemas;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -226,7 +255,7 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JList<String> listaTemas;
+    private javax.swing.JList listaTemas;
     private javax.swing.JSpinner txtNivel;
     // End of variables declaration//GEN-END:variables
 }

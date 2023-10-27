@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
  *
  * @author User
  */
-public class Sistema {
+public class Sistema implements Serializable {
     private ArrayList<Tematica> listaTematicas;
     private ArrayList<Postulante> listaPostulantes;
     private ArrayList<Entrevistador> listaEntrevistadores;
@@ -28,16 +29,8 @@ public class Sistema {
         this.listaPersonas = new ArrayList<>();
     }
     
-    public String[] getNombresTematicas() {
-        String[] nombres = new String[this.listaTematicas.size()];
-        int contador = 0;
-        
-        for(Tematica unaTematica : this.listaTematicas) {   
-            nombres[contador] = unaTematica.getNombre();
-            contador++;
-        }
-        
-        return nombres;
+    public ArrayList<Tematica> getTematicas() {
+        return listaTematicas;
     }
     
     public boolean agregarTematica(String nombre, String descripcion) {

@@ -4,6 +4,10 @@
  */
 package interfaz;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author User
@@ -29,8 +33,8 @@ public class InicioPrograma extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnDatosGuardados = new javax.swing.JButton();
+        btnDatosVacio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Inicio Programa");
@@ -39,17 +43,17 @@ public class InicioPrograma extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Inicio programa");
 
-        jButton1.setText("Datos guardados");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDatosGuardados.setText("Datos guardados");
+        btnDatosGuardados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDatosGuardadosActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sistema Vacío");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnDatosVacio.setText("Sistema Vacío");
+        btnDatosVacio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnDatosVacioActionPerformed(evt);
             }
         });
 
@@ -59,9 +63,9 @@ public class InicioPrograma extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jButton1)
+                .addComponent(btnDatosGuardados)
                 .addGap(71, 71, 71)
-                .addComponent(jButton2)
+                .addComponent(btnDatosVacio)
                 .addContainerGap(37, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -75,8 +79,8 @@ public class InicioPrograma extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(btnDatosVacio)
+                    .addComponent(btnDatosGuardados))
                 .addGap(35, 35, 35))
         );
 
@@ -86,56 +90,32 @@ public class InicioPrograma extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        MenuPrincipal m = new MenuPrincipal();
-        m.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MenuPrincipal m = new MenuPrincipal();
-        m.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnDatosGuardadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosGuardadosActionPerformed
+        MenuPrincipal m = null;
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InicioPrograma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InicioPrograma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InicioPrograma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InicioPrograma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            m = new MenuPrincipal(true);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioPrograma.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        m.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDatosGuardadosActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InicioPrograma().setVisible(true);
-            }
-        });
-    }
+    private void btnDatosVacioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosVacioActionPerformed
+        MenuPrincipal m = null;
+        try {
+            m = new MenuPrincipal(false);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioPrograma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        m.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDatosVacioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnDatosGuardados;
+    private javax.swing.JButton btnDatosVacio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

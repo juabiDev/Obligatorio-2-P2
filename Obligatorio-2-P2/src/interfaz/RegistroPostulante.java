@@ -4,6 +4,7 @@
  */
 package interfaz;
 
+import dominio.Postulante;
 import dominio.Sistema;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -218,9 +219,17 @@ public class RegistroPostulante extends javax.swing.JFrame {
         String formato = formatoaux;
         
         boolean valido = sistema.validarPostulante(nombre, cedula, direccion, telefono, mail, linkedin, formato);
+        Postulante p = new Postulante();
+        p.setCedula(cedula);
+        p.setNombre(nombre);
+        p.setDireccion(direccion);
+        p.setTelefono(telefono);
+        p.setMail(mail);
+        p.setLinkedin(linkedin);
+        p.setFormato(formato);
         
         if(valido) {
-            ExperienciaPostulante ventanaAux = new ExperienciaPostulante(sistema, cedula);
+            ExperienciaPostulante ventanaAux = new ExperienciaPostulante(sistema, p, this);
             ventanaAux.setLocation(50, 50);
             ventanaAux.setSize(500, 325);
             ventanaAux.setVisible(true);

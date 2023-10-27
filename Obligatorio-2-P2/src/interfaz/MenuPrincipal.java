@@ -6,6 +6,16 @@ package interfaz;
 
 import dominio.Sistema;
 import java.awt.Component;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,8 +26,29 @@ public class MenuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public MenuPrincipal() {
-        sistema = new Sistema();
+    public MenuPrincipal(boolean datos) throws FileNotFoundException, IOException  {
+        if(datos) {
+           try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("sistema.txt"));
+            Sistema s;
+            try {
+                s = (Sistema) in.readObject();
+                this.sistema = s;
+                System.out.println(s.getTematicas().size());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            in.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "No se encontraron datos, se inicia el sistema vacío", "Error", JOptionPane.ERROR_MESSAGE);
+            sistema = new Sistema();
+            //Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        } else{
+            sistema = new Sistema();
+        }
+        
         initComponents();
         this.setSize(1000,800);
     }
@@ -225,7 +256,38 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemCHistorialActionPerformed
 
     private void jItemFCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemFCerrarActionPerformed
-        System.exit(0);
+
+       FileOutputStream ff = null;
+        try {
+            ff = new FileOutputStream("sistema.txt");
+            BufferedOutputStream b = new BufferedOutputStream(ff);
+            ObjectOutputStream so = null;
+           try {
+               so = new ObjectOutputStream(b);
+           } catch (IOException ex) {
+               Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           try {
+               so.writeObject(this.sistema);
+           } catch (IOException ex) {
+               Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           try {
+               so.close();
+           } catch (IOException ex) {
+               Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+           }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                ff.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                   
+        this.dispose();
     }//GEN-LAST:event_jItemFCerrarActionPerformed
 
 

@@ -4,11 +4,13 @@
  */
 package dominio;
 
+import java.io.Serializable;
+
 /**
  *
  * @author User
  */
-public class Persona {
+public class Persona implements Serializable {
     private String nombre;
     private String cedula;
     private String direccion;

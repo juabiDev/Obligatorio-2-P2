@@ -17,6 +17,15 @@ public class Postulante extends Persona {
     private String linkedin;
     private String formato;
     private HashMap<String,String> temas;
+    
+    public Postulante() {
+        super("", "", "");
+        this.telefono = telefono;
+        this.mail = mail;
+        this.linkedin = linkedin;
+        this.formato = formato;
+        this.temas = temas;
+    }
 
     public Postulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) {
         super(nombre, cedula, direccion);
