@@ -4,18 +4,31 @@
  */
 package interfaz;
 
+import dominio.Sistema;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
  */
 public class RegistroEntrevista extends javax.swing.JFrame {
-
-    /**
-     * Creates new form RegistroEntrevista
-     */
-    public RegistroEntrevista() {
+    private Sistema sistema;
+    
+    public RegistroEntrevista(Sistema unSistema) {
+        sistema = unSistema;
         initComponents();
         this.setSize(650,470);
+        cargarListas();
+    }
+    
+    public void cargarListas() {
+        listaEvaluadores.setListData(sistema.getEvaluadores().toArray());
+        listaPostulantes.setListData(sistema.getPostulantes().toArray());
+    }
+    
+    public void resetearCampos() {
+        txtPuntaje.setValue(0);
+        txtComentarios.setText("");
     }
 
     /**
@@ -31,15 +44,15 @@ public class RegistroEntrevista extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listaEvaluadores = new javax.swing.JList();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listaPostulantes = new javax.swing.JList();
         jLabel4 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        txtPuntaje = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtComentarios = new javax.swing.JTextArea();
         btnRegistroEntrevista = new javax.swing.JButton();
         btnCancelarEntrevista = new javax.swing.JButton();
 
@@ -52,29 +65,23 @@ public class RegistroEntrevista extends javax.swing.JFrame {
 
         jLabel2.setText("Evaluador:");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        listaEvaluadores.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(listaEvaluadores);
 
         jLabel3.setText("Postulante:");
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
+        listaPostulantes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(listaPostulantes);
 
         jLabel4.setText("Puntaje:");
 
+        txtPuntaje.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+
         jLabel5.setText("Comentarios:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        txtComentarios.setColumns(20);
+        txtComentarios.setRows(5);
+        jScrollPane3.setViewportView(txtComentarios);
 
         btnRegistroEntrevista.setText("Registrar");
         btnRegistroEntrevista.addActionListener(new java.awt.event.ActionListener() {
@@ -84,6 +91,11 @@ public class RegistroEntrevista extends javax.swing.JFrame {
         });
 
         btnCancelarEntrevista.setText("Cancelar");
+        btnCancelarEntrevista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarEntrevistaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,7 +120,7 @@ public class RegistroEntrevista extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtPuntaje, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel5))
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -135,10 +147,10 @@ public class RegistroEntrevista extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPuntaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarEntrevista)
                     .addComponent(btnRegistroEntrevista))
@@ -152,9 +164,25 @@ public class RegistroEntrevista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroEntrevistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroEntrevistaActionPerformed
-
+        if(listaPostulantes.getSelectedValue() == null || listaEvaluadores.getSelectedValue() == null) {
+           JOptionPane.showMessageDialog(this, "No se seleccionaron evaluador / postulante", "Error", JOptionPane.ERROR_MESSAGE); 
+        } else {
+            String cedulaPos = listaPostulantes.getSelectedValue().toString().split(" ")[2];
+            String cedulaEval = listaEvaluadores.getSelectedValue().toString().split(" ")[2];
+            int puntaje = (int) txtPuntaje.getValue();
+            String comentarios= txtComentarios.getText();
+        
+            sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
+            
+            JOptionPane.showMessageDialog(this, "Entrevista registrada con éxito", "Registro Entrevista", JOptionPane.INFORMATION_MESSAGE);
+            
+            this.resetearCampos();
+        }
     }//GEN-LAST:event_btnRegistroEntrevistaActionPerformed
 
+    private void btnCancelarEntrevistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEntrevistaActionPerformed
+       this.dispose();
+    }//GEN-LAST:event_btnCancelarEntrevistaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarEntrevista;
@@ -164,13 +192,13 @@ public class RegistroEntrevista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JList listaEvaluadores;
+    private javax.swing.JList listaPostulantes;
+    private javax.swing.JTextArea txtComentarios;
+    private javax.swing.JSpinner txtPuntaje;
     // End of variables declaration//GEN-END:variables
 }

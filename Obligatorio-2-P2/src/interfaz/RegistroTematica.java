@@ -19,6 +19,11 @@ public class RegistroTematica extends javax.swing.JFrame {
         initComponents();
         this.setSize(600,350);
     }
+    
+    public void resetearCampos() {
+        txtNombreTematica.setText("");
+        txtDescripcionTematica.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -126,22 +131,23 @@ public class RegistroTematica extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreTematicaActionPerformed
 
     private void btnCancelarTematicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarTematicaActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarTematicaActionPerformed
 
     private void btnRegistrarTematicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarTematicaActionPerformed
         String nombre = txtNombreTematica.getText();
         String descripcion = txtDescripcionTematica.getText();
+       
         boolean existeTematica = sistema.agregarTematica(nombre, descripcion);
         
         if(nombre.trim().equals("") || descripcion.trim().equals("")) {
            JOptionPane.showMessageDialog(this, "Hay campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
         } else if(existeTematica) {
            JOptionPane.showMessageDialog(this, "Tematica ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+           this.resetearCampos();
         } else {
            JOptionPane.showMessageDialog(this, "Tematica creada", "OK", JOptionPane.INFORMATION_MESSAGE);
-           txtDescripcionTematica.setText("");
-           txtNombreTematica.setText("");
+           this.resetearCampos();
         }
         
     }//GEN-LAST:event_btnRegistrarTematicaActionPerformed

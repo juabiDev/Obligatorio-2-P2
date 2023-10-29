@@ -8,19 +8,19 @@ package dominio;
  *
  * @author User
  */
-public class Entrevistador extends Persona {
-    private int anioIngreso;
+public class Evaluador extends Persona {
+    private String anioIngreso;
     
-    public Entrevistador(String nombre, String cedula, String direccion, int anioIngreso) {
+    public Evaluador(String nombre, String cedula, String direccion, String anioIngreso) {
         super(nombre, cedula, direccion);
         this.anioIngreso = anioIngreso;
     }  
 
-    public int getAnioIngreso() {
+    public String getAnioIngreso() {
         return anioIngreso;
     }
 
-    public void setAnioIngreso(int anioIngreso) {
+    public void setAnioIngreso(String anioIngreso) {
         this.anioIngreso = anioIngreso;
     }
     

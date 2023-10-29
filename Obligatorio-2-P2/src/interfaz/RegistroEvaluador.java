@@ -4,18 +4,27 @@
  */
 package interfaz;
 
+import dominio.Sistema;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
  */
 public class RegistroEvaluador extends javax.swing.JFrame {
-
-    /**
-     * Creates new form RegistroEvaluador
-     */
-    public RegistroEvaluador() {
+    private Sistema sistema;
+    
+    public RegistroEvaluador(Sistema unSistema) {
+        sistema = unSistema;
         initComponents();
         this.setSize(600, 350);
+    }
+    
+    public void resetearCampos() {
+        txtNombreEvaluador.setText("");
+        txtCedulaEvaluador.setText("");
+        txtDireccionEvaluador.setText("");
+        txtAnioEvaluador.setText("");
     }
 
     /**
@@ -67,6 +76,11 @@ public class RegistroEvaluador extends javax.swing.JFrame {
         });
 
         btnCancelarEvaluador.setText("Cancelar");
+        btnCancelarEvaluador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarEvaluadorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -84,7 +98,6 @@ public class RegistroEvaluador extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegistroEvaluador, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
@@ -133,9 +146,25 @@ public class RegistroEvaluador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroEvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroEvaluadorActionPerformed
-
+        String nombre = txtNombreEvaluador.getText();
+        String cedula = txtCedulaEvaluador.getText();
+        String direccion = txtDireccionEvaluador.getText();
+        String anio = txtAnioEvaluador.getText();
+        
+        boolean seAgrego = sistema.agregarEvaluador(nombre, cedula, direccion, anio);
+        if (seAgrego) {
+            JOptionPane.showMessageDialog(this, "Evaluador creado con éxito", "Registro Evaluador", JOptionPane.INFORMATION_MESSAGE);
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Evaluador ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        this.resetearCampos();
     }//GEN-LAST:event_btnRegistroEvaluadorActionPerformed
 
+    private void btnCancelarEvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEvaluadorActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarEvaluadorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarEvaluador;

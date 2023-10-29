@@ -115,6 +115,11 @@ public class RegistroPostulante extends javax.swing.JFrame {
         });
 
         btnCancelarPostulante.setText("Cancelar");
+        btnCancelarPostulante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarPostulanteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -205,11 +210,6 @@ public class RegistroPostulante extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguientePostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguientePostulanteActionPerformed
-        //ExperienciaPostulante ventanaAux = new ExperienciaPostulante();
-        //ventanaAux.setLocation(50, 50);
-        //ventanaAux.setSize(500, 325);
-        //ventanaAux.setVisible(true);
-        
         String nombre = txtNombrePostulante.getText();
         String cedula = txtPostulanteCedula.getText();
         String direccion = txtDireccionPostulante.getText();
@@ -218,7 +218,7 @@ public class RegistroPostulante extends javax.swing.JFrame {
         String linkedin = txtPostulanteLinkedin.getText();
         String formato = formatoaux;
         
-        boolean valido = sistema.validarPostulante(nombre, cedula, direccion, telefono, mail, linkedin, formato);
+        boolean existeCedula = sistema.validarExisteCedula(cedula);
         Postulante p = new Postulante();
         p.setCedula(cedula);
         p.setNombre(nombre);
@@ -228,13 +228,13 @@ public class RegistroPostulante extends javax.swing.JFrame {
         p.setLinkedin(linkedin);
         p.setFormato(formato);
         
-        if(valido) {
+        if(!existeCedula) {
             ExperienciaPostulante ventanaAux = new ExperienciaPostulante(sistema, p, this);
             ventanaAux.setLocation(50, 50);
             ventanaAux.setSize(500, 325);
             ventanaAux.setVisible(true);
         } else {
-           JOptionPane.showMessageDialog(this, "Persona ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this, "Postulante ya existente", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_btnSiguientePostulanteActionPerformed
@@ -251,6 +251,10 @@ public class RegistroPostulante extends javax.swing.JFrame {
     private void radioMixtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioMixtoActionPerformed
        formatoaux = buttonGroup1.getSelection().isSelected() ? "mixto" : "";
     }//GEN-LAST:event_radioMixtoActionPerformed
+
+    private void btnCancelarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPostulanteActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarPostulanteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarPostulante;

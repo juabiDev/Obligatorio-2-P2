@@ -80,6 +80,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Personal");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         DesktopPanel.setPreferredSize(new java.awt.Dimension(1000, 800));
@@ -208,7 +213,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemRTematicaActionPerformed
 
     private void jItemREvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemREvaluadorActionPerformed
-       RegistroEvaluador ventanaEvaluador = new RegistroEvaluador();
+       RegistroEvaluador ventanaEvaluador = new RegistroEvaluador(sistema);
        ventanaEvaluador.setVisible(true);
        ventanaEvaluador.setLocation(50, 50);
     }//GEN-LAST:event_jItemREvaluadorActionPerformed
@@ -232,13 +237,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemBPostulanteActionPerformed
 
     private void jItemREntrevistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemREntrevistaActionPerformed
-       RegistroEntrevista ventanaEntrevista = new RegistroEntrevista();
+       RegistroEntrevista ventanaEntrevista = new RegistroEntrevista(sistema);
        ventanaEntrevista.setVisible(true);
        ventanaEntrevista.setLocation(50, 50);
     }//GEN-LAST:event_jItemREntrevistaActionPerformed
 
     private void jItemRPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemRPuestoActionPerformed
-        RegistroPuesto ventanaPuesto = new RegistroPuesto();
+        RegistroPuesto ventanaPuesto = new RegistroPuesto(sistema);
         ventanaPuesto.setVisible(true);
         ventanaPuesto.setLocation(50, 50);
     }//GEN-LAST:event_jItemRPuestoActionPerformed
@@ -256,8 +261,37 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemCHistorialActionPerformed
 
     private void jItemFCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemFCerrarActionPerformed
+        this.guardarData();           
+        this.dispose();
+    }//GEN-LAST:event_jItemFCerrarActionPerformed
 
-       FileOutputStream ff = null;
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.guardarData();           
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane DesktopPanel;
+    private javax.swing.JMenuItem jItemBPostulante;
+    private javax.swing.JMenuItem jItemCEstadisticas;
+    private javax.swing.JMenuItem jItemCHistorial;
+    private javax.swing.JMenuItem jItemCPuesto;
+    private javax.swing.JMenuItem jItemFCerrar;
+    private javax.swing.JMenuItem jItemREntrevista;
+    private javax.swing.JMenuItem jItemREvaluador;
+    private javax.swing.JMenuItem jItemRPostulante;
+    private javax.swing.JMenuItem jItemRPuesto;
+    private javax.swing.JMenuItem jItemRTematica;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    // End of variables declaration//GEN-END:variables
+
+    private void guardarData() {
+        FileOutputStream ff = null;
         try {
             ff = new FileOutputStream("sistema.txt");
             BufferedOutputStream b = new BufferedOutputStream(ff);
@@ -286,28 +320,5 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-                   
-        this.dispose();
-    }//GEN-LAST:event_jItemFCerrarActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane DesktopPanel;
-    private javax.swing.JMenuItem jItemBPostulante;
-    private javax.swing.JMenuItem jItemCEstadisticas;
-    private javax.swing.JMenuItem jItemCHistorial;
-    private javax.swing.JMenuItem jItemCPuesto;
-    private javax.swing.JMenuItem jItemFCerrar;
-    private javax.swing.JMenuItem jItemREntrevista;
-    private javax.swing.JMenuItem jItemREvaluador;
-    private javax.swing.JMenuItem jItemRPostulante;
-    private javax.swing.JMenuItem jItemRPuesto;
-    private javax.swing.JMenuItem jItemRTematica;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    // End of variables declaration//GEN-END:variables
+    }
 }

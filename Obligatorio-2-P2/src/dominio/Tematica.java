@@ -40,6 +40,9 @@ public class Tematica implements Serializable {
         this.descripcion = descripcion;
     }
     
-    
+    @Override
+    public String toString() {
+        return nombre;
+    }
     
 }

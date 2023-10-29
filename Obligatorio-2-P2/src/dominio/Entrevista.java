@@ -14,14 +14,14 @@ import java.util.ArrayList;
 public class Entrevista implements Serializable {
     private int nroEntrevista;
     private Postulante postulante;
-    private Entrevistador entrevistador;
+    private Evaluador entrevistador;
     private int puntaje;
-    private ArrayList<String> comentarios;
+    private String comentarios;
     
-    private static int cantidadEntrevistas;
+    private static int cantidadEntrevistas = 0;
 
-    public Entrevista(Postulante postulante, Entrevistador entrevistador, int puntaje, ArrayList<String> comentarios) {
-        this.nroEntrevista = cantidadEntrevistas;
+    public Entrevista(Postulante postulante, Evaluador entrevistador, int puntaje, String comentarios) {
+        this.nroEntrevista = ++cantidadEntrevistas;
         this.postulante = postulante;
         this.entrevistador = entrevistador;
         this.puntaje = puntaje;
@@ -44,11 +44,11 @@ public class Entrevista implements Serializable {
         this.postulante = postulante;
     }
 
-    public Entrevistador getEntrevistador() {
+    public Evaluador getEntrevistador() {
         return entrevistador;
     }
 
-    public void setEntrevistador(Entrevistador entrevistador) {
+    public void setEntrevistador(Evaluador entrevistador) {
         this.entrevistador = entrevistador;
     }
 
@@ -60,11 +60,11 @@ public class Entrevista implements Serializable {
         this.puntaje = puntaje;
     }
 
-    public ArrayList<String> getComentarios() {
+    public String getComentarios() {
         return comentarios;
     }
 
-    public void setComentarios(ArrayList<String> comentarios) {
+    public void setComentarios(String comentarios) {
         this.comentarios = comentarios;
     }
 
@@ -73,7 +73,7 @@ public class Entrevista implements Serializable {
     }
 
     public static void setCantidadEntrevistas(int cantidadEntrevistas) {
-        Entrevista.cantidadEntrevistas = cantidadEntrevistas;
+        cantidadEntrevistas++;
     }
     
     
