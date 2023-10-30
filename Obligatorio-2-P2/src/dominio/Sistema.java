@@ -7,6 +7,7 @@ package dominio;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Observable;
 
 /**
@@ -72,8 +73,6 @@ public class Sistema extends Observable implements Serializable {
             notifyObservers();
             System.out.println("Creado");
         }
-        
-        
     }
     
     public boolean validarExisteCedula(String cedula) {
@@ -161,19 +160,17 @@ public class Sistema extends Observable implements Serializable {
     public boolean eliminarPostulante(String cedula) {
         boolean existeCedula = this.validarExisteCedula(cedula);
         
-        if(existeCedula) {
-            for(Postulante p : this.listaPostulantes) {
-                if(p.getCedula().equals(cedula)) {
-                    this.listaPostulantes.remove(p);
-                    // abajo falla
-                    setChanged();
-                    notifyObservers();
-                }
+        if (existeCedula) {
+        Iterator<Postulante> iterator = this.listaPostulantes.iterator();
+        while (iterator.hasNext()) {
+            Postulante p = iterator.next();
+            if (p.getCedula().equals(cedula)) {
+                iterator.remove();
+                setChanged();
+                notifyObservers();
             }
-            
-
         }
-        
-        return existeCedula;
+    }
+    return existeCedula;
     }
 }
