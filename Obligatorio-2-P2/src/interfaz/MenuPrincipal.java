@@ -48,10 +48,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         } else{
             sistema = new Sistema();
         }
-        
+
         initComponents();
         this.setSize(1000,800);
     }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -231,7 +232,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemRPostulanteActionPerformed
 
     private void jItemBPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemBPostulanteActionPerformed
-       BajaPostulante ventanaBaja = new BajaPostulante();
+       BajaPostulante ventanaBaja = new BajaPostulante(sistema);
        ventanaBaja.setVisible(true);
        ventanaBaja.setLocation(50, 50);
     }//GEN-LAST:event_jItemBPostulanteActionPerformed

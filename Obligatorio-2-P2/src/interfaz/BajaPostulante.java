@@ -4,20 +4,34 @@
  */
 package interfaz;
 
+import dominio.Sistema;
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  *
  * @author User
  */
-public class BajaPostulante extends javax.swing.JFrame {
-
+public class BajaPostulante extends javax.swing.JFrame implements Observer {
+    private Sistema sistema;
     /**
      * Creates new form BajaPostulante
      */
-    public BajaPostulante() {
+    public BajaPostulante(Sistema unSistema) {
+        sistema = unSistema;
+        sistema.addObserver(this);
         initComponents();
+        cargarLista();
         this.setSize(400,350);
     }
 
+    public void cargarLista() {
+        listaPostulantes.setListData(sistema.getPostulantes().toArray());
+    }
+    
+    public void update(Observable o, Object ob) {
+        cargarLista();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -26,8 +40,8 @@ public class BajaPostulante extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        listaPostulantes = new javax.swing.JList();
+        btnEliminarPostulante = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Baja Postulante");
@@ -36,14 +50,14 @@ public class BajaPostulante extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Baja postulante");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listaPostulantes);
 
-        jButton1.setText("Eliminar");
+        btnEliminarPostulante.setText("Eliminar");
+        btnEliminarPostulante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarPostulanteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -59,7 +73,7 @@ public class BajaPostulante extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(129, 129, 129)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEliminarPostulante, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -70,8 +84,8 @@ public class BajaPostulante extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addComponent(btnEliminarPostulante)
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -80,12 +94,18 @@ public class BajaPostulante extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEliminarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPostulanteActionPerformed
+        String cedulaPostulante = listaPostulantes.getSelectedValue().toString().split(" ")[2];
+        System.out.println("Cedula Postulante a eliminar "+cedulaPostulante);
+        sistema.eliminarPostulante(cedulaPostulante);
+    }//GEN-LAST:event_btnEliminarPostulanteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnEliminarPostulante;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList listaPostulantes;
     // End of variables declaration//GEN-END:variables
 }

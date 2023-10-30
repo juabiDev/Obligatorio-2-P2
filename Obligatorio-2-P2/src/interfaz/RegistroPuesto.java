@@ -9,6 +9,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 
@@ -16,7 +18,7 @@ import javax.swing.ListSelectionModel;
  *
  * @author User
  */
-public class RegistroPuesto extends javax.swing.JFrame {
+public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
     private String formatoaux;
     /**
@@ -24,6 +26,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
      */
     public RegistroPuesto(Sistema unSistema) {
         sistema = unSistema;
+        sistema.addObserver(this);
         initComponents();
         this.setSize(550,450);
         cargarLista();
@@ -31,6 +34,10 @@ public class RegistroPuesto extends javax.swing.JFrame {
     
     public void cargarLista() {
         listaTemas.setListData(sistema.getTematicas().toArray());
+    }
+    
+    public void update(Observable o, Object ob) {
+        cargarLista();
     }
 
     /**
@@ -112,6 +119,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
             }
         });
 
+        listaTemas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(listaTemas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -170,7 +178,7 @@ public class RegistroPuesto extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarEvaluador)
                     .addComponent(btnRegistroPuesto))

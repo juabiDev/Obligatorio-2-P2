@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
@@ -20,7 +22,7 @@ import javax.swing.ListModel;
  *
  * @author User
  */
-public class ExperienciaPostulante extends javax.swing.JFrame {
+public class ExperienciaPostulante extends javax.swing.JFrame implements Observer{
     private Sistema sistema;
     private Postulante postulante;
     private HashMap<String,String> temasPostulantes;
@@ -33,12 +35,17 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
         sistema = unSistema;
         postulante = unPostulante;
         initComponents();
+        temasPostulantes = new HashMap<>();
+        referencia = unaReferencia;
+        sistema.addObserver(this);
+        cargarTemas();
+    }
+    
+    public void cargarTemas() {
+        comboTemas.removeAllItems();
         sistema.getTematicas().forEach((tema) -> {
             comboTemas.addItem(tema.getNombre());
         });
-        temasPostulantes = new HashMap<>();
-        referencia = unaReferencia;
-
     }
     
     public void cargarLista() {
@@ -52,6 +59,10 @@ public class ExperienciaPostulante extends javax.swing.JFrame {
         }
         
         listaTemas.setListData(elementos);
+    }
+    
+    public void update(Observable o, Object ob) {
+        cargarTemas();
     }
 
     /**

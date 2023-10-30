@@ -4,6 +4,8 @@
  */
 package interfaz;
 import dominio.*;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 /**
  *
@@ -24,6 +26,7 @@ public class RegistroTematica extends javax.swing.JFrame {
         txtNombreTematica.setText("");
         txtDescripcionTematica.setText("");
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -138,16 +141,17 @@ public class RegistroTematica extends javax.swing.JFrame {
         String nombre = txtNombreTematica.getText();
         String descripcion = txtDescripcionTematica.getText();
        
-        boolean existeTematica = sistema.agregarTematica(nombre, descripcion);
+        boolean existeTematica = sistema.agregarTematica(nombre, descripcion);;
         
         if(nombre.trim().equals("") || descripcion.trim().equals("")) {
            JOptionPane.showMessageDialog(this, "Hay campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+           resetearCampos();
         } else if(existeTematica) {
            JOptionPane.showMessageDialog(this, "Tematica ya existente", "Error", JOptionPane.ERROR_MESSAGE);
-           this.resetearCampos();
+           resetearCampos();
         } else {
            JOptionPane.showMessageDialog(this, "Tematica creada", "OK", JOptionPane.INFORMATION_MESSAGE);
-           this.resetearCampos();
+           resetearCampos();
         }
         
     }//GEN-LAST:event_btnRegistrarTematicaActionPerformed

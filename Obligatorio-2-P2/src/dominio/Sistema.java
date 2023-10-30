@@ -7,12 +7,13 @@ package dominio;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
 /**
  *
  * @author User
  */
-public class Sistema implements Serializable {
+public class Sistema extends Observable implements Serializable {
     private ArrayList<Tematica> listaTematicas;
     private ArrayList<Postulante> listaPostulantes;
     private ArrayList<Evaluador> listaEvaluadores;
@@ -54,6 +55,9 @@ public class Sistema implements Serializable {
             this.listaTematicas.add(nuevaTematica);
         }
         
+        setChanged();
+        notifyObservers();
+        
         return existeNombre;
     }
     
@@ -64,8 +68,12 @@ public class Sistema implements Serializable {
             Postulante nuevoPostulante = new Postulante(nombre, cedula, direccion, telefono, mail, linkedin, formato, temas);
             this.listaPersonas.add(nuevoPostulante);
             this.listaPostulantes.add(nuevoPostulante);
+            setChanged();
+            notifyObservers();
             System.out.println("Creado");
         }
+        
+        
     }
     
     public boolean validarExisteCedula(String cedula) {
@@ -96,6 +104,8 @@ public class Sistema implements Serializable {
             Evaluador nuevoEvaluador = new Evaluador(nombre, cedula, direccion, anioIngreso);
             this.listaPersonas.add(nuevoEvaluador);
             this.listaEvaluadores.add(nuevoEvaluador);
+            setChanged();
+            notifyObservers();
             System.out.println("Evaluador Creado");
         }
         
@@ -146,5 +156,24 @@ public class Sistema implements Serializable {
         }
         
         return existeNombre;
+    }
+    
+    public boolean eliminarPostulante(String cedula) {
+        boolean existeCedula = this.validarExisteCedula(cedula);
+        
+        if(existeCedula) {
+            for(Postulante p : this.listaPostulantes) {
+                if(p.getCedula().equals(cedula)) {
+                    this.listaPostulantes.remove(p);
+                    // abajo falla
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+            
+
+        }
+        
+        return existeCedula;
     }
 }

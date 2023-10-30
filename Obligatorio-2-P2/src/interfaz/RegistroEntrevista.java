@@ -5,17 +5,20 @@
 package interfaz;
 
 import dominio.Sistema;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author User
  */
-public class RegistroEntrevista extends javax.swing.JFrame {
+public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
     
     public RegistroEntrevista(Sistema unSistema) {
         sistema = unSistema;
+        sistema.addObserver(this);
         initComponents();
         this.setSize(650,470);
         cargarListas();
@@ -29,6 +32,10 @@ public class RegistroEntrevista extends javax.swing.JFrame {
     public void resetearCampos() {
         txtPuntaje.setValue(0);
         txtComentarios.setText("");
+    }
+    
+    public void update(Observable o, Object ob) {
+        cargarListas();
     }
 
     /**
