@@ -140,7 +140,7 @@ public class RegistroEvaluador extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 580, 320);
+        jPanel1.setBounds(0, 0, 590, 320);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

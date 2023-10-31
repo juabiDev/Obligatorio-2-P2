@@ -5,15 +5,9 @@
 package interfaz;
 
 import dominio.Sistema;
-import dominio.Tematica;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -39,6 +33,12 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     }
     
     public void update(Observable o, Object ob) {
+        cargarLista();
+    }
+    
+    public void resetearCampos() {
+        txtNombrePuesto.setText("");
+        buttonGroup1.clearSelection();
         cargarLista();
     }
 
@@ -197,7 +197,14 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
         String formato = formatoaux;
         Object[] selectedValues = listaTemas.getSelectedValuesList().toArray();
         
-        sistema.agregarPuesto(nombre, formato, selectedValues);
+        boolean seAgrego = sistema.agregarPuesto(nombre, formato, selectedValues);
+         if (seAgrego) {
+            JOptionPane.showMessageDialog(this, "Puesto creado con éxito", "Registro Puesto", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Puesto ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         
+        this.resetearCampos();
     }//GEN-LAST:event_btnRegistroPuestoActionPerformed
 
     private void btnCancelarEvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEvaluadorActionPerformed

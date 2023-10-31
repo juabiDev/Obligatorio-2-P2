@@ -7,6 +7,7 @@ package interfaz;
 import dominio.Sistema;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -66,14 +67,14 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(btnEliminarPostulante, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(137, 137, 137)
+                        .addComponent(btnEliminarPostulante, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(jLabel1)))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -85,7 +86,7 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnEliminarPostulante)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -96,8 +97,12 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
 
     private void btnEliminarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPostulanteActionPerformed
         String cedulaPostulante = listaPostulantes.getSelectedValue().toString().split(" ")[2];
-        System.out.println("Cedula Postulante a eliminar "+cedulaPostulante);
-        sistema.eliminarPostulante(cedulaPostulante);
+        boolean seElimino = sistema.eliminarPostulante(cedulaPostulante);
+        if (seElimino) {
+            JOptionPane.showMessageDialog(this, "Postulante eliminado con éxito", "Baja postulante", JOptionPane.INFORMATION_MESSAGE); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar postulante", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEliminarPostulanteActionPerformed
 
 

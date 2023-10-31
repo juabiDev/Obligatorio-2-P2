@@ -6,7 +6,6 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Observable;
@@ -158,7 +157,7 @@ public class Sistema extends Observable implements Serializable {
             System.out.println("Puesto agregado:");
         }
         
-        return existeNombre;
+        return !existeNombre;
     }
     
     public boolean eliminarPostulante(String cedula) {

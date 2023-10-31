@@ -5,7 +5,6 @@
 package interfaz;
 
 import dominio.Sistema;
-import java.awt.Component;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

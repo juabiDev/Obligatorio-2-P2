@@ -6,17 +6,10 @@ package interfaz;
 
 import dominio.Postulante;
 import dominio.Sistema;
-import java.awt.List;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
 
 /**
  *
@@ -221,15 +214,12 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
         String temaSeleccionado = (String) comboTemas.getSelectedItem();
         int valor = (int) txtNivel.getValue();
         String nivel = String.valueOf(valor);
-
-        String tema = temaSeleccionado + " (" + nivel + ")";
         
         if(!this.temasPostulantes.containsKey(temaSeleccionado)) {
             this.temasPostulantes.put(temaSeleccionado, nivel);
         }
         
         cargarLista();
-      
     }//GEN-LAST:event_btnAgregarTemaActionPerformed
 
     private void btnEliminarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTemaActionPerformed
