@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Observable;
 
 /**
@@ -41,6 +42,10 @@ public class Sistema extends Observable implements Serializable {
     
     public ArrayList<Postulante> getPostulantes() {
         return listaPostulantes;
+    }
+    
+    public ArrayList<Puesto> getPuestos() {
+        return listaPuestos;
     }
     
     public boolean agregarTematica(String nombre, String descripcion) {
@@ -164,16 +169,81 @@ public class Sistema extends Observable implements Serializable {
         boolean existeCedula = this.validarExisteCedula(cedula);
         
         if (existeCedula) {
-        Iterator<Postulante> iterator = this.listaPostulantes.iterator();
-        while (iterator.hasNext()) {
-            Postulante p = iterator.next();
-            if (p.getCedula().equals(cedula)) {
+            
+            Iterator<Postulante> iterator = this.listaPostulantes.iterator();
+            Iterator<Persona> iterator2 = this.listaPersonas.iterator();
+
+            while(iterator2.hasNext()) {
+                Persona p = iterator2.next();
+                if (p.getCedula().equals(cedula)) {
+                    iterator2.remove();
+                }
+            }
+
+            Postulante unPostulante = this.obtenerPostulante(cedula);
+            this.eliminarEntrevistasPostulante(unPostulante);
+
+            while (iterator.hasNext()) {
+                Postulante p = iterator.next();
+                if (p.getCedula().equals(cedula)) {
+                    iterator.remove();
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+
+        }
+        return existeCedula;
+    }
+    
+    public void eliminarEntrevistasPostulante(Postulante unPostulante) {
+        Iterator<Entrevista> iterator = this.listaEntrevistas.iterator();
+        
+        while(iterator.hasNext()) {
+            Entrevista e = iterator.next();
+            if(e.getPostulante().equals(unPostulante)) {
                 iterator.remove();
                 setChanged();
                 notifyObservers();
             }
         }
     }
-    return existeCedula;
+    
+    public Postulante obtenerPostulante(String cedula) {
+        Postulante p = null;
+        for(Postulante unPostulante : this.listaPostulantes) {
+            if (unPostulante.getCedula().equals(cedula)) {
+                 p = unPostulante;
+            }
+        }
+        
+        return p;
+    }
+    
+    public ArrayList<Postulante> obtenerPostulantesParaPuesto(Puesto unPuesto, String nivel) {
+        ArrayList<Postulante> listaPostulantes = new ArrayList<>();
+        String formaTrabajo = unPuesto.getTipo();
+        ArrayList<Tematica> temasRequeridos = unPuesto.getTemasRequeridos();
+        int nivelRequerido = Integer.parseInt(nivel);
+        
+        this.listaPostulantes.forEach((Postulante p ) -> {
+            boolean loTiene = true;
+            for(Tematica tema : temasRequeridos) {
+                int nivelTemaPos = Integer.parseInt(p.getTemas().get(tema.getNombre()));
+                
+                if(nivelTemaPos < nivelRequerido) {
+                    loTiene = false;
+                }
+
+            }
+            
+            if(p.getFormato().equalsIgnoreCase(formaTrabajo) && loTiene) {
+                listaPostulantes.add(p);
+            }
+        });
+        
+        // ordenar segun puntaje de ultima entrevista, decrecientemente.
+        
+        return listaPostulantes;
     }
 }

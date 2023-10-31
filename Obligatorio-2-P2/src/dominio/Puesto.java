@@ -52,6 +52,9 @@ public class Puesto implements Serializable {
         this.temasRequeridos = temasRequeridos;
     }
     
-    
+    @Override
+    public String toString() {
+        return this.getNombre();
+    }
     
 }

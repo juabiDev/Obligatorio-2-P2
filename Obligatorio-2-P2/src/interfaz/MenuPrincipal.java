@@ -249,7 +249,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemRPuestoActionPerformed
 
     private void jItemCPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemCPuestoActionPerformed
-        ConsultaPuesto ventanaCPuesto = new ConsultaPuesto();
+        ConsultaPuesto ventanaCPuesto = new ConsultaPuesto(sistema);
         ventanaCPuesto.setVisible(true);
         ventanaCPuesto.setLocation(50, 50);
     }//GEN-LAST:event_jItemCPuestoActionPerformed

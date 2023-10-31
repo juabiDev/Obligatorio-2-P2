@@ -4,18 +4,40 @@
  */
 package interfaz;
 
+import dominio.Puesto;
+import dominio.Sistema;
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  *
  * @author User
  */
-public class ConsultaPuesto extends javax.swing.JFrame {
-
+public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
+    private Sistema sistema;
     /**
      * Creates new form ConsultaPuesto
      */
-    public ConsultaPuesto() {
+    public ConsultaPuesto(Sistema unSistema) {
+        sistema = unSistema;
+        sistema.addObserver(this);
         initComponents();
         this.setSize(450,620);
+    }
+    
+    public void cargarListaPuestos() {
+        listaPuestos.setListData(sistema.getPuestos().toArray());
+    }
+
+    public void cargarListaPostulantes(Puesto unPuesto, String nivel) {
+        // forma de trabajo
+        // nivel seleccionado igual o mayor
+        // al menos una entrevista
+        sistema.obtenerPostulantesParaPuesto(unPuesto,nivel);
+    }
+    
+    public void update(Observable o, Object ob) {
+        cargarListaPuestos();
     }
 
     /**
@@ -31,13 +53,13 @@ public class ConsultaPuesto extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listaPostulantes = new javax.swing.JList();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
+        txtNivel = new javax.swing.JSpinner();
+        btnConsultarPuesto = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listaPuestos = new javax.swing.JList();
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -51,23 +73,23 @@ public class ConsultaPuesto extends javax.swing.JFrame {
 
         jLabel2.setText("Puestos:");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        listaPostulantes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaPostulantes.setEnabled(false);
+        jScrollPane1.setViewportView(listaPostulantes);
 
         jLabel3.setText("Nivel:");
 
-        jButton1.setText("Consultar");
+        txtNivel.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        btnConsultarPuesto.setText("Consultar");
+        btnConsultarPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarPuestoActionPerformed(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList2);
+
+        listaPuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(listaPuestos);
 
         jLabel4.setText("Postulantes:");
 
@@ -99,9 +121,9 @@ public class ConsultaPuesto extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel3)
                                     .addGap(65, 65, 65)
-                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnConsultarPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane2))
                             .addComponent(jLabel4)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -128,8 +150,8 @@ public class ConsultaPuesto extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(txtNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultarPuesto))
                 .addGap(16, 16, 16)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -140,7 +162,7 @@ public class ConsultaPuesto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -157,21 +179,29 @@ public class ConsultaPuesto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void btnConsultarPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPuestoActionPerformed
+        Puesto puestoSeleccionado = (Puesto) listaPuestos.getSelectedValue();
+        int valor = (int) txtNivel.getValue();
+        String nivel = String.valueOf(valor);
+        
+        cargarListaPostulantes(puestoSeleccionado,nivel);
+    }//GEN-LAST:event_btnConsultarPuestoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnConsultarPuesto;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JList listaPostulantes;
+    private javax.swing.JList listaPuestos;
+    private javax.swing.JSpinner txtNivel;
     // End of variables declaration//GEN-END:variables
 }

@@ -32,6 +32,8 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
     public void resetearCampos() {
         txtPuntaje.setValue(0);
         txtComentarios.setText("");
+        listaEvaluadores.clearSelection();
+        listaPostulantes.clearSelection();
     }
     
     public void update(Observable o, Object ob) {
