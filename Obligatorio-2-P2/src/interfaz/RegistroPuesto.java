@@ -5,6 +5,7 @@
 package interfaz;
 
 import dominio.Sistema;
+import dominio.Tematica;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -119,7 +121,6 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
             }
         });
 
-        listaTemas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(listaTemas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -194,6 +195,9 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     private void btnRegistroPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroPuestoActionPerformed
         String nombre = txtNombrePuesto.getText();
         String formato = formatoaux;
+        Object[] selectedValues = listaTemas.getSelectedValuesList().toArray();
+        
+        sistema.agregarPuesto(nombre, formato, selectedValues);
     }//GEN-LAST:event_btnRegistroPuestoActionPerformed
 
     private void btnCancelarEvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEvaluadorActionPerformed

@@ -6,6 +6,7 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Observable;
@@ -131,7 +132,7 @@ public class Sistema extends Observable implements Serializable {
         this.listaEntrevistas.add(nuevaEntrevista);
     }
     
-    public boolean agregarPuesto(String unNombre, String tipo, ArrayList<String> temasRequeridos) {
+    public boolean agregarPuesto(String unNombre, String tipo, Object[] temasRequeridos) {
         boolean existeNombre = false;
         
         for(Puesto puesto : this.listaPuestos) {
@@ -140,10 +141,12 @@ public class Sistema extends Observable implements Serializable {
             }
         }
         
+        // Esto es necesario?
+        
         ArrayList<Tematica> temas = new ArrayList<>();
-        for (String temaReq : temasRequeridos) {
+        for (Object temaReq : temasRequeridos) {
             for(Tematica tematica : this.listaTematicas) {
-                if (tematica.getNombre().equalsIgnoreCase(temaReq)) {
+                if (tematica.getNombre().equalsIgnoreCase(temaReq.toString())) {
                     temas.add(tematica);
                 }
             }
@@ -152,6 +155,7 @@ public class Sistema extends Observable implements Serializable {
         if(!existeNombre) {
             Puesto nuevoPuesto = new Puesto(unNombre, tipo, temas);
             this.listaPuestos.add(nuevoPuesto);
+            System.out.println("Puesto agregado:");
         }
         
         return existeNombre;
