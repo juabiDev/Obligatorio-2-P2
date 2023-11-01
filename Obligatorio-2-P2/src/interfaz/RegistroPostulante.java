@@ -24,6 +24,16 @@ public class RegistroPostulante extends javax.swing.JFrame {
         initComponents();
         this.setSize(630, 450);
     }
+    
+    public void resetearCampos() {
+        txtNombrePostulante.setText("");
+        txtPostulanteCedula.setText("");
+        txtDireccionPostulante.setText("");
+        txtTelefonoPostulante.setText("");
+        txtMailPostulante.setText("");
+        txtPostulanteLinkedin.setText("");
+        buttonGroup1.clearSelection();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

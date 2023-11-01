@@ -67,7 +67,7 @@ public class Sistema extends Observable implements Serializable {
         return existeNombre;
     }
     
-    public void agregarPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) {
+    public boolean agregarPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) {
         boolean existeCedula = this.validarExisteCedula(cedula);
         
         if(!existeCedula) {
@@ -78,6 +78,8 @@ public class Sistema extends Observable implements Serializable {
             notifyObservers();
             System.out.println("Creado");
         }
+        
+        return !existeCedula;
     }
     
     public boolean validarExisteCedula(String cedula) {

@@ -41,7 +41,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "No se encontraron datos, se inicia el sistema vacío", "Error", JOptionPane.ERROR_MESSAGE);
             sistema = new Sistema();
-            //Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
             
         } else{

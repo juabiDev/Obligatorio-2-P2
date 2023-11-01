@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -233,10 +234,18 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnRegistrarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPostulanteActionPerformed
-        sistema.agregarPostulante(postulante.getNombre(), postulante.getCedula(), postulante.getDireccion(), postulante.getDireccion(), postulante.getFormato(), 
+        boolean seAgrego = sistema.agregarPostulante(postulante.getNombre(), postulante.getCedula(), postulante.getDireccion(), postulante.getDireccion(), postulante.getFormato(), 
                 postulante.getLinkedin(), postulante.getMail(), temasPostulantes);
+        
+        if (seAgrego) {
+            JOptionPane.showMessageDialog(this, "Postulante creado con éxito", "Registro Postulante", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Postulante ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
         this.dispose();
-        referencia.dispose();
+        referencia.resetearCampos();
+       
     }//GEN-LAST:event_btnRegistrarPostulanteActionPerformed
 
     private void listaTemasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaTemasValueChanged
