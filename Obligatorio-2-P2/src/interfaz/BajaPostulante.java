@@ -52,6 +52,7 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Baja postulante");
 
+        listaPostulantes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listaPostulantes);
 
         btnEliminarPostulante.setText("Eliminar");

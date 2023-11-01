@@ -93,15 +93,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         DesktopPanel.setLayout(DesktopPanelLayout);
         DesktopPanelLayout.setHorizontalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 1090, Short.MAX_VALUE)
         );
         DesktopPanelLayout.setVerticalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 790, Short.MAX_VALUE)
         );
 
         getContentPane().add(DesktopPanel);
-        DesktopPanel.setBounds(-10, -30, 1000, 800);
+        DesktopPanel.setBounds(-10, -30, 1090, 790);
 
         jMenu2.setText("Registros");
 
@@ -171,7 +171,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jItemCPuesto);
 
-        jItemCHistorial.setText("Historial Postulante");
+        jItemCHistorial.setText("Historial postulante");
         jItemCHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jItemCHistorialActionPerformed(evt);
@@ -179,7 +179,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jItemCHistorial);
 
-        jItemCEstadisticas.setText("Estadisticas por Temática");
+        jItemCEstadisticas.setText("Estadísticas por temática");
         jItemCEstadisticas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jItemCEstadisticasActionPerformed(evt);
@@ -191,7 +191,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu4.setText("Fin");
 
-        jItemFCerrar.setText("Cerrar Sesión");
+        jItemFCerrar.setText("Cerrar sesión");
         jItemFCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jItemFCerrarActionPerformed(evt);
@@ -203,7 +203,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar2);
 
-        setBounds(0, 0, 831, 595);
+        setBounds(0, 0, 1096, 789);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jItemRTematicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemRTematicaActionPerformed
