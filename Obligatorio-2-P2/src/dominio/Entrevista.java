@@ -76,5 +76,7 @@ public class Entrevista implements Serializable {
         cantidadEntrevistas++;
     }
     
-    
+    public int compareTo(Entrevista unaEntrevista) {
+        return unaEntrevista.getPuntaje() - this.getPuntaje();
+    }
 }

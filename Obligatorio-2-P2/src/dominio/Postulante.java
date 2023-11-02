@@ -6,6 +6,7 @@ package dominio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -75,6 +76,24 @@ public class Postulante extends Persona {
     public void setTemas(HashMap<String,String> temas) {
         this.temas = temas;
     }
-
     
+    @Override
+    public String toString() {
+        return this.getNombre() + " (" + this.getCedula() + ")";
+    }
+
+    public String formatoArchivo() {
+        return this.getNombre() + " - " + this.getCedula() + " - " + this.getMail();
+    }
+    
+    public ArrayList<String> formatoTemas() {
+        ArrayList<String> temasFormateado = new ArrayList<>();
+
+        for(Map.Entry<String,String> entry : temas.entrySet()) {
+            String aux = entry.getKey() + " (" + entry.getValue() + ")";
+            temasFormateado.add(aux);
+        }
+
+        return temasFormateado;
+    }
 }

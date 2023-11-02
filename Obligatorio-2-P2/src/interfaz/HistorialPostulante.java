@@ -4,19 +4,104 @@
  */
 package interfaz;
 
+import dominio.CriterioPostulantes;
+import dominio.Entrevista;
+import dominio.Postulante;
+import dominio.Sistema;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Vector;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author User
  */
-public class HistorialPostulante extends javax.swing.JFrame {
-
+public class HistorialPostulante extends javax.swing.JFrame implements Observer{
+    private Sistema sistema;
+    private Postulante postulante;
     /**
      * Creates new form HistorialPostulante
      */
-    public HistorialPostulante() {
+    public HistorialPostulante(Sistema unSistema) {
+        sistema = unSistema;
+        sistema.addObserver(this);
         initComponents();
+        cargarLista();
+
         this.setSize(1000,850);
     }
+    
+    public void cargarLista() {
+        ArrayList<Postulante> listaAux = sistema.getPostulantes();
+        Collections.sort(listaAux, new CriterioPostulantes());
+        listaPostulantes.setListData(listaAux.toArray());
+    }
+    
+    public void cargarTabla() {
+        
+        DefaultTableModel modelo = (DefaultTableModel) tablaEntrevistas.getModel();
+        modelo.setRowCount(0); // Limpia cualquier dato existente en la tabla
+
+        for (Entrevista e : sistema.obtenerEntrevistasPostulante(postulante)) {
+            Object[] fila = {e.getNroEntrevista(), e.getEntrevistador().formatoTabla(), e.getPuntaje(), e.getComentarios()};
+            modelo.addRow(fila);
+        }
+        
+    }
+    
+    public void limpiarBusqueda() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaEntrevistas.getModel();
+
+        for (int row = 0; row < modelo.getRowCount(); row++) {
+            String comentarios = modelo.getValueAt(row, 3).toString();
+            String comentariosFormateados = comentarios;
+
+            // Elimina cualquier formato HTML anterior
+            comentariosFormateados = comentariosFormateados.replaceAll("<[^>]*>", "");
+
+            modelo.setValueAt(comentariosFormateados, row, 3);
+        }
+
+        tablaEntrevistas.updateUI();
+    }
+    
+    public void cargarDatosPostulante() {
+        
+        textArea.setText("");
+        
+        txtCedulaHistorial.setText(postulante.getCedula());
+        txtNombreHistorial.setText(postulante.getNombre());
+        txtMailHistorial.setText(postulante.getMail());
+        txtDireccionHistorial.setText(postulante.getDireccion());
+        txtTelefonoHistorial.setText(postulante.getTelefono());
+        txtFormatoHistorial.setText(postulante.getFormato());
+
+        txtLinkedinHistorial.setText(postulante.getLinkedin());
+        txtLinkedinHistorial.setForeground(Color.blue);
+        txtLinkedinHistorial.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        ArrayList<String> temas = postulante.formatoTemas();
+        
+        for(String t : temas) {
+            textArea.append(t + "\n");
+        }
+        
+    }
+    
+    public void update(Observable o, Object ob) {
+        cargarLista();
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,8 +122,6 @@ public class HistorialPostulante extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         txtNombreHistorial = new javax.swing.JLabel();
         txtCedulaHistorial = new javax.swing.JLabel();
         txtDireccionHistorial = new javax.swing.JLabel();
@@ -48,15 +131,17 @@ public class HistorialPostulante extends javax.swing.JFrame {
         txtFormatoHistorial = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listaPostulantes = new javax.swing.JList();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        btnResetear = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
+        tablaEntrevistas = new javax.swing.JTable();
+        btnSalir = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Historial Postulante");
@@ -89,44 +174,40 @@ public class HistorialPostulante extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel9.setText("Experiencia:");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        txtLinkedinHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtLinkedinHistorialMouseClicked(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
-
-        txtNombreHistorial.setText("TextoNombre");
-
-        txtCedulaHistorial.setText("TextoCedula");
-
-        txtDireccionHistorial.setText("TextoDireccion");
-
-        txtTelefonoHistorial.setText("TextoTelefono");
-
-        txtMailHistorial.setText("TextoMail");
-
-        txtLinkedinHistorial.setText("TextoLinkedin");
-
-        txtFormatoHistorial.setText("TextoFormato");
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel10.setText("Postulantes:");
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        listaPostulantes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaPostulantes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaPostulantesValueChanged(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(listaPostulantes);
 
         jLabel11.setText("Buscar:");
 
-        jButton1.setText("Buscar");
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Resetear");
+        btnResetear.setText("Resetear");
+        btnResetear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetearActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaEntrevistas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -152,17 +233,27 @@ public class HistorialPostulante extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(250);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(450);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(150);
+        jScrollPane3.setViewportView(tablaEntrevistas);
+        if (tablaEntrevistas.getColumnModel().getColumnCount() > 0) {
+            tablaEntrevistas.getColumnModel().getColumn(0).setMinWidth(50);
+            tablaEntrevistas.getColumnModel().getColumn(0).setMaxWidth(100);
+            tablaEntrevistas.getColumnModel().getColumn(1).setMinWidth(250);
+            tablaEntrevistas.getColumnModel().getColumn(1).setMaxWidth(450);
+            tablaEntrevistas.getColumnModel().getColumn(2).setMinWidth(100);
+            tablaEntrevistas.getColumnModel().getColumn(2).setMaxWidth(150);
         }
 
-        jButton3.setText("Salir");
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
+        textArea.setEditable(false);
+        textArea.setColumns(20);
+        textArea.setRows(5);
+        jScrollPane4.setViewportView(textArea);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -192,15 +283,15 @@ public class HistorialPostulante extends javax.swing.JFrame {
                                     .addComponent(jLabel9))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombreHistorial)
                             .addComponent(txtCedulaHistorial)
                             .addComponent(txtDireccionHistorial)
                             .addComponent(txtTelefonoHistorial)
                             .addComponent(txtMailHistorial)
                             .addComponent(txtLinkedinHistorial)
-                            .addComponent(txtFormatoHistorial))
-                        .addGap(93, 93, 93))
+                            .addComponent(txtFormatoHistorial)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jSeparator1)
                         .addContainerGap())
@@ -210,12 +301,12 @@ public class HistorialPostulante extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addGap(45, 45, 45)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnResetear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -224,7 +315,7 @@ public class HistorialPostulante extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -256,25 +347,26 @@ public class HistorialPostulante extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2)))
-                .addGap(31, 31, 31)
+                        .addComponent(jScrollPane2)
+                        .addGap(31, 31, 31)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1)
-                        .addComponent(jButton2)))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar)
+                        .addComponent(btnResetear)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(btnSalir)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -283,10 +375,57 @@ public class HistorialPostulante extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void listaPostulantesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPostulantesValueChanged
+        postulante = sistema.obtenerPostulante(((Postulante) listaPostulantes.getSelectedValue()).getCedula());
+        cargarTabla();
+        cargarDatosPostulante();
+    }//GEN-LAST:event_listaPostulantesValueChanged
+
+    private void txtLinkedinHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLinkedinHistorialMouseClicked
+            if(postulante != null) {
+            String linkedin = postulante.getLinkedin();
+            if(linkedin != null && !linkedin.isEmpty()) {
+                try {
+                    java.awt.Desktop.getDesktop().browse(new java.net.URI(linkedin));
+                } catch(java.io.IOException | java.net.URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_txtLinkedinHistorialMouseClicked
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String texto = txtBuscar.getText().toLowerCase();
+
+        DefaultTableModel modelo = (DefaultTableModel) tablaEntrevistas.getModel();
+        
+        limpiarBusqueda();
+
+        for (int row = 0; row < modelo.getRowCount(); row++) {
+             String comentarios = modelo.getValueAt(row, 3).toString().toLowerCase();
+                 String comentariosFormateados = comentarios;
+             if (comentarios.contains(texto)) {
+                 // Reemplaza la palabra buscada con HTML para cambiar el color a rojo
+                comentariosFormateados = comentarios.replaceAll(texto, "<font color='red'>" + texto + "</font>");
+                modelo.setValueAt("<html>" + comentariosFormateados + "</html>", row, 3);
+            }
+             
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnResetearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetearActionPerformed
+        limpiarBusqueda();
+        txtBuscar.setText("");
+    }//GEN-LAST:event_btnResetearActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnResetear;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -298,15 +437,15 @@ public class HistorialPostulante extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JList listaPostulantes;
+    private javax.swing.JTable tablaEntrevistas;
+    private javax.swing.JTextArea textArea;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JLabel txtCedulaHistorial;
     private javax.swing.JLabel txtDireccionHistorial;
     private javax.swing.JLabel txtFormatoHistorial;

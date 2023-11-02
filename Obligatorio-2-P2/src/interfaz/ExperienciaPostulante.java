@@ -234,9 +234,9 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnRegistrarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPostulanteActionPerformed
-        boolean seAgrego = sistema.agregarPostulante(postulante.getNombre(), postulante.getCedula(), postulante.getDireccion(), postulante.getDireccion(), postulante.getFormato(), 
-                postulante.getLinkedin(), postulante.getMail(), temasPostulantes);
-        
+        boolean seAgrego = sistema.agregarPostulante(postulante.getNombre(), postulante.getCedula(), postulante.getDireccion(), postulante.getTelefono(), postulante.getMail(), 
+                postulante.getLinkedin(), postulante.getFormato(), temasPostulantes);
+        // String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas
         if (seAgrego) {
             JOptionPane.showMessageDialog(this, "Postulante creado con éxito", "Registro Postulante", JOptionPane.INFORMATION_MESSAGE);
         } else {

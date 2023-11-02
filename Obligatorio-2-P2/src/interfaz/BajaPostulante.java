@@ -4,6 +4,7 @@
  */
 package interfaz;
 
+import dominio.Postulante;
 import dominio.Sistema;
 import java.util.Observable;
 import java.util.Observer;
@@ -109,7 +110,7 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPostulanteActionPerformed
-        String cedulaPostulante = listaPostulantes.getSelectedValue().toString().split(" ")[2];
+        String cedulaPostulante = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
         boolean seElimino = sistema.eliminarPostulante(cedulaPostulante);
         if (seElimino) {
             JOptionPane.showMessageDialog(this, "Postulante eliminado con éxito", "Baja postulante", JOptionPane.INFORMATION_MESSAGE); 

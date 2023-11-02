@@ -4,8 +4,11 @@
  */
 package interfaz;
 
+import dominio.ArchivoGrabacion;
+import dominio.Postulante;
 import dominio.Puesto;
 import dominio.Sistema;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,6 +18,8 @@ import java.util.Observer;
  */
 public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
     private Sistema sistema;
+    private ArrayList<Postulante> postulantesFiltrados = new ArrayList<>();
+    private Puesto puestoSeleccionado;
     /**
      * Creates new form ConsultaPuesto
      */
@@ -23,6 +28,7 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
         sistema.addObserver(this);
         initComponents();
         this.setSize(450,620);
+        cargarListaPuestos();
     }
     
     public void cargarListaPuestos() {
@@ -33,7 +39,8 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
         // forma de trabajo
         // nivel seleccionado igual o mayor
         // al menos una entrevista
-        sistema.obtenerPostulantesParaPuesto(unPuesto,nivel);
+        postulantesFiltrados = sistema.obtenerPostulantesParaPuesto(unPuesto,nivel);
+        listaPostulantes.setListData(postulantesFiltrados.toArray());
     }
     
     public void update(Observable o, Object ob) {
@@ -172,15 +179,16 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+       this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        ArchivoGrabacion arch = new ArchivoGrabacion("Consulta.txt");
+        sistema.grabarArchivoConsulta(arch, postulantesFiltrados, puestoSeleccionado);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnConsultarPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPuestoActionPerformed
-        Puesto puestoSeleccionado = (Puesto) listaPuestos.getSelectedValue();
+        puestoSeleccionado = (Puesto) listaPuestos.getSelectedValue();
         int valor = (int) txtNivel.getValue();
         String nivel = String.valueOf(valor);
         

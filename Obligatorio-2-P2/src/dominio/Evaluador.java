@@ -24,4 +24,8 @@ public class Evaluador extends Persona {
         this.anioIngreso = anioIngreso;
     }
     
+    public String formatoTabla() {
+        return this.getNombre() + " (" + this.getCedula() + ")";
+    }
+    
 }

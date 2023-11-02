@@ -4,6 +4,8 @@
  */
 package interfaz;
 
+import dominio.Evaluador;
+import dominio.Postulante;
 import dominio.Sistema;
 import java.util.Observable;
 import java.util.Observer;
@@ -179,9 +181,9 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
         if(listaPostulantes.getSelectedValue() == null || listaEvaluadores.getSelectedValue() == null) {
            JOptionPane.showMessageDialog(this, "No se seleccionaron evaluador / postulante", "Error", JOptionPane.ERROR_MESSAGE); 
         } else {
-            String cedulaPos = listaPostulantes.getSelectedValue().toString().split(" ")[2];
-            String cedulaEval = listaEvaluadores.getSelectedValue().toString().split(" ")[2];
-            int puntaje = (int) txtPuntaje.getValue();
+            String cedulaPos = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
+            String cedulaEval = ((Evaluador) listaEvaluadores.getSelectedValue()).getCedula();
+            int puntaje = (int) txtPuntaje.getValue(); 
             String comentarios= txtComentarios.getText();
         
             sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);

@@ -219,7 +219,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemREvaluadorActionPerformed
 
     private void jItemCEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemCEstadisticasActionPerformed
-       ConsultaTematica ventanaCTematica = new ConsultaTematica();
+       ConsultaTematica ventanaCTematica = new ConsultaTematica(sistema);
        ventanaCTematica.setVisible(true);
        ventanaCTematica.setLocation(50, 50);
     }//GEN-LAST:event_jItemCEstadisticasActionPerformed
@@ -255,7 +255,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemCPuestoActionPerformed
 
     private void jItemCHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemCHistorialActionPerformed
-        HistorialPostulante ventanaHistorialP = new HistorialPostulante();
+        HistorialPostulante ventanaHistorialP = new HistorialPostulante(sistema);
         ventanaHistorialP.setVisible(true);
         ventanaHistorialP.setLocation(50, 50);
     }//GEN-LAST:event_jItemCHistorialActionPerformed

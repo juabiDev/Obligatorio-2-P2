@@ -48,6 +48,10 @@ public class Sistema extends Observable implements Serializable {
         return listaPuestos;
     }
     
+    public ArrayList<Entrevista> getEntrevistas() {
+        return listaEntrevistas;
+    }
+    
     public boolean agregarTematica(String nombre, String descripcion) {
         boolean existeNombre = false;
         for(Tematica unaTematica : this.listaTematicas) {
@@ -60,7 +64,7 @@ public class Sistema extends Observable implements Serializable {
             Tematica nuevaTematica = new Tematica(nombre,descripcion);
             this.listaTematicas.add(nuevaTematica);
         }
-        
+        System.out.println("hola");
         setChanged();
         notifyObservers();
         
@@ -215,7 +219,7 @@ public class Sistema extends Observable implements Serializable {
         Postulante p = null;
         for(Postulante unPostulante : this.listaPostulantes) {
             if (unPostulante.getCedula().equals(cedula)) {
-                 p = unPostulante;
+                p = unPostulante;
             }
         }
         
@@ -223,7 +227,9 @@ public class Sistema extends Observable implements Serializable {
     }
     
     public ArrayList<Postulante> obtenerPostulantesParaPuesto(Puesto unPuesto, String nivel) {
-        ArrayList<Postulante> listaPostulantes = new ArrayList<>();
+        ArrayList<Postulante> listaPostulantesCumplen = new ArrayList<>();
+        ArrayList<Entrevista> UltimasEntrevistas = new ArrayList<>();
+
         String formaTrabajo = unPuesto.getTipo();
         ArrayList<Tematica> temasRequeridos = unPuesto.getTemasRequeridos();
         int nivelRequerido = Integer.parseInt(nivel);
@@ -231,21 +237,111 @@ public class Sistema extends Observable implements Serializable {
         this.listaPostulantes.forEach((Postulante p ) -> {
             boolean loTiene = true;
             for(Tematica tema : temasRequeridos) {
-                int nivelTemaPos = Integer.parseInt(p.getTemas().get(tema.getNombre()));
-                
-                if(nivelTemaPos < nivelRequerido) {
+                if(p.getTemas().containsKey(tema.getNombre())) {
+                    int nivelTemaPos = Integer.parseInt(p.getTemas().get(tema.getNombre()));
+                    if(nivelTemaPos < nivelRequerido) {
+                        loTiene = false;
+                    }   
+                } else {
                     loTiene = false;
                 }
-
+                
             }
-            
+
             if(p.getFormato().equalsIgnoreCase(formaTrabajo) && loTiene) {
-                listaPostulantes.add(p);
+                listaPostulantesCumplen.add(p);
             }
         });
         
-        // ordenar segun puntaje de ultima entrevista, decrecientemente.
+        listaPostulantesCumplen.forEach((Postulante unPos) -> {
+            Entrevista ultimaE = this.obtenerUltimaEntrevistaPostulante(unPos);
+            UltimasEntrevistas.add(ultimaE);
+        });
         
-        return listaPostulantes;
+        ArrayList<Postulante> respuesta = new ArrayList<>();
+        
+        if(!UltimasEntrevistas.isEmpty()) {
+            respuesta = ordenarPostulantesPorEntrevista(UltimasEntrevistas);
+        } 
+        
+        return respuesta;
+    }
+    
+    private ArrayList<Postulante> ordenarPostulantesPorEntrevista(ArrayList<Entrevista> ultimasEntrevistas) {
+        ArrayList<Postulante> postulantesOrdenados = new ArrayList<>();
+        ultimasEntrevistas.removeIf(e -> e == null);
+        
+        ultimasEntrevistas.sort((Entrevista e1, Entrevista e2) -> {
+            return e2.getPuntaje() - e1.getPuntaje();
+        });
+        
+        ultimasEntrevistas.forEach((Entrevista e) -> {
+            postulantesOrdenados.add(e.getPostulante());
+        });
+        
+        return postulantesOrdenados;
+    }
+    
+    public Entrevista obtenerUltimaEntrevistaPostulante(Postulante unPostulante) {
+        Entrevista e = null;
+        boolean encontrado = false;
+
+        for(int i = this.listaEntrevistas.size() - 1; i > 0 && !encontrado; i--) {
+            if(this.listaEntrevistas.get(i).getPostulante().equals(unPostulante)) {
+                e = this.listaEntrevistas.get(i);
+                encontrado = true;
+            }
+        }
+        
+        return e;
+    }
+    
+    public void grabarArchivoConsulta(ArchivoGrabacion arch, ArrayList<Postulante> postulantesFiltrados, Puesto puestoSeleccionado) {
+        arch.grabarLinea("Consulta para Puesto: "+puestoSeleccionado.getNombre());
+        
+        for(Postulante p : postulantesFiltrados) {
+            arch.grabarLinea(p.formatoArchivo());
+        }
+        
+        arch.cerrar();
+    }
+    
+    public ArrayList<Entrevista> obtenerEntrevistasPostulante(Postulante p) {
+        ArrayList<Entrevista> entrevistas = new ArrayList<>();
+        
+        this.listaEntrevistas.forEach((Entrevista e ) -> {
+            if(e.getPostulante().equals(p)) {
+                entrevistas.add(e);
+            }
+        });
+        
+        return entrevistas;
+    }
+    
+    public int cantidadPostulantesSuperanNivel5(Tematica t) {
+        int cantidad = 0;
+        
+        for(Postulante p : this.listaPostulantes) {
+            for(Map.Entry<String,String> entry : p.getTemas().entrySet()) {
+                int nivel = Integer.parseInt(entry.getValue());
+                if(entry.getKey().equalsIgnoreCase(t.getNombre()) && nivel >= 5) {
+                    cantidad++;
+                }
+            }
+        }
+        
+        return cantidad;
+    }
+    
+    public int cantidadPuestosRequierenTematica(Tematica t) {
+        int cantidad = 0;
+        
+        for(Puesto p : this.listaPuestos) {
+            if(p.getTemasRequeridos().contains(t)) {
+                cantidad++;
+            }
+        }
+        
+        return cantidad;
     }
 }
