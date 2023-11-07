@@ -7,7 +7,6 @@ package interfaz;
 import dominio.Postulante;
 import dominio.Sistema;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 
 /**
  *

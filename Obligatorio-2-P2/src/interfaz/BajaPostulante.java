@@ -113,7 +113,7 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
         String cedulaPostulante = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
         boolean seElimino = sistema.eliminarPostulante(cedulaPostulante);
         if (seElimino) {
-            JOptionPane.showMessageDialog(this, "Postulante eliminado con éxito", "Baja postulante", JOptionPane.INFORMATION_MESSAGE); 
+            JOptionPane.showMessageDialog(this, "Postulante eliminado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE); 
         } else {
             JOptionPane.showMessageDialog(this, "Error al eliminar postulante", "Error", JOptionPane.ERROR_MESSAGE);
         }

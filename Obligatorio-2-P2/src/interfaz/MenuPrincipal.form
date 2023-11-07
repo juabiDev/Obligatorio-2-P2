@@ -17,7 +17,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jItemRTematica">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tematica"/>
+                <Property name="text" type="java.lang.String" value="Tem&#xe1;tica"/>
                 <Property name="debugGraphicsOptions" type="int" value="-1"/>
               </Properties>
               <Events>

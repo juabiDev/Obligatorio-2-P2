@@ -188,7 +188,7 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
         
             sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
             
-            JOptionPane.showMessageDialog(this, "Entrevista registrada con éxito", "Registro Entrevista", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Entrevista registrada con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
             
             this.resetearCampos();
         }

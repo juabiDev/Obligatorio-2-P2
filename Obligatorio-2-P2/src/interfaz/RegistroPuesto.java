@@ -203,7 +203,7 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
         
         boolean seAgrego = sistema.agregarPuesto(nombre, formato, selectedValues);
          if (seAgrego) {
-            JOptionPane.showMessageDialog(this, "Puesto creado con éxito", "Registro Puesto", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Puesto creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Puesto ya existente", "Error", JOptionPane.ERROR_MESSAGE);
         }

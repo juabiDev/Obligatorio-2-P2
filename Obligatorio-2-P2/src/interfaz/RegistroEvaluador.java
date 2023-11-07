@@ -153,8 +153,7 @@ public class RegistroEvaluador extends javax.swing.JFrame {
         
         boolean seAgrego = sistema.agregarEvaluador(nombre, cedula, direccion, anio);
         if (seAgrego) {
-            JOptionPane.showMessageDialog(this, "Evaluador creado con éxito", "Registro Evaluador", JOptionPane.INFORMATION_MESSAGE);
-            
+            JOptionPane.showMessageDialog(this, "Evaluador creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Evaluador ya existente", "Error", JOptionPane.ERROR_MESSAGE);
         }

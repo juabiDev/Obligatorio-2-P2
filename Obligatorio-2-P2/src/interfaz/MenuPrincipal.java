@@ -105,7 +105,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu2.setText("Registros");
 
-        jItemRTematica.setText("Tematica");
+        jItemRTematica.setText("Temática");
         jItemRTematica.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
         jItemRTematica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,7 +257,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jItemCHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemCHistorialActionPerformed
         HistorialPostulante ventanaHistorialP = new HistorialPostulante(sistema);
         ventanaHistorialP.setVisible(true);
-        ventanaHistorialP.setLocation(50, 50);
     }//GEN-LAST:event_jItemCHistorialActionPerformed
 
     private void jItemFCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemFCerrarActionPerformed

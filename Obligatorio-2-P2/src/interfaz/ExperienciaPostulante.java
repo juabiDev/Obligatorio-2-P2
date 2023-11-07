@@ -238,7 +238,7 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
                 postulante.getLinkedin(), postulante.getFormato(), temasPostulantes);
         // String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas
         if (seAgrego) {
-            JOptionPane.showMessageDialog(this, "Postulante creado con éxito", "Registro Postulante", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Postulante creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Postulante ya existente", "Error", JOptionPane.ERROR_MESSAGE);
         }

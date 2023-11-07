@@ -10,16 +10,10 @@ import dominio.Postulante;
 import dominio.Sistema;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -36,9 +30,8 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         sistema = unSistema;
         sistema.addObserver(this);
         initComponents();
+        this.setSize(1000, 700);
         cargarLista();
-
-        this.setSize(1000,850);
     }
     
     public void cargarLista() {
@@ -145,6 +138,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Historial Postulante");
+        setMaximumSize(null);
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -209,10 +203,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
 
         tablaEntrevistas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nro", "Evaluador", "Puntaje", "Comentarios"
@@ -271,7 +262,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3)
@@ -366,14 +357,40 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 950, 770);
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnResetearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetearActionPerformed
+        limpiarBusqueda();
+        txtBuscar.setText("");
+    }//GEN-LAST:event_btnResetearActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String texto = txtBuscar.getText().toLowerCase();
+
+        DefaultTableModel modelo = (DefaultTableModel) tablaEntrevistas.getModel();
+
+        limpiarBusqueda();
+
+        for (int row = 0; row < modelo.getRowCount(); row++) {
+            String comentarios = modelo.getValueAt(row, 3).toString().toLowerCase();
+            String comentariosFormateados = comentarios;
+            if (comentarios.contains(texto)) {
+                // Reemplaza la palabra buscada con HTML para cambiar el color a rojo
+                comentariosFormateados = comentarios.replaceAll(texto, "<font color='red'>" + texto + "</font>");
+                modelo.setValueAt("<html>" + comentariosFormateados + "</html>", row, 3);
+            }
+
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void listaPostulantesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPostulantesValueChanged
         postulante = sistema.obtenerPostulante(((Postulante) listaPostulantes.getSelectedValue()).getCedula());
@@ -382,7 +399,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_listaPostulantesValueChanged
 
     private void txtLinkedinHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLinkedinHistorialMouseClicked
-            if(postulante != null) {
+        if(postulante != null) {
             String linkedin = postulante.getLinkedin();
             if(linkedin != null && !linkedin.isEmpty()) {
                 try {
@@ -393,34 +410,6 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             }
         }
     }//GEN-LAST:event_txtLinkedinHistorialMouseClicked
-
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String texto = txtBuscar.getText().toLowerCase();
-
-        DefaultTableModel modelo = (DefaultTableModel) tablaEntrevistas.getModel();
-        
-        limpiarBusqueda();
-
-        for (int row = 0; row < modelo.getRowCount(); row++) {
-             String comentarios = modelo.getValueAt(row, 3).toString().toLowerCase();
-                 String comentariosFormateados = comentarios;
-             if (comentarios.contains(texto)) {
-                 // Reemplaza la palabra buscada con HTML para cambiar el color a rojo
-                comentariosFormateados = comentarios.replaceAll(texto, "<font color='red'>" + texto + "</font>");
-                modelo.setValueAt("<html>" + comentariosFormateados + "</html>", row, 3);
-            }
-             
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnResetearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetearActionPerformed
-        limpiarBusqueda();
-        txtBuscar.setText("");
-    }//GEN-LAST:event_btnResetearActionPerformed
-
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
