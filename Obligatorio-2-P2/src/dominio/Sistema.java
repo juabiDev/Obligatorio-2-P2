@@ -52,8 +52,11 @@ public class Sistema extends Observable implements Serializable {
         return listaEntrevistas;
     }
     
-    public boolean agregarTematica(String nombre, String descripcion) {
+    public boolean agregarTematica(String nombre, String descripcion) throws Exception {
         boolean existeNombre = false;
+
+        if(nombre.trim().equals("") || descripcion.trim().equals("")) throw new ErrorCamposVacios();
+
         for(Tematica unaTematica : this.listaTematicas) {
             if(unaTematica.getNombre().equalsIgnoreCase(nombre)) {
                 existeNombre = true;
@@ -63,27 +66,57 @@ public class Sistema extends Observable implements Serializable {
         if(!existeNombre) {
             Tematica nuevaTematica = new Tematica(nombre,descripcion);
             this.listaTematicas.add(nuevaTematica);
+            setChanged();
+            notifyObservers();
+        } else {
+            throw new Exception("Nombre de tematica ya existente");
         }
-        System.out.println("hola");
-        setChanged();
-        notifyObservers();
         
         return !existeNombre;
     }
     
-    public boolean agregarPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) {
-        boolean existeCedula = this.validarExisteCedula(cedula);
+    public boolean agregarPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) throws Exception {
+        boolean noHayTemas = temas.isEmpty();
         
-        if(!existeCedula) {
+        if(!noHayTemas) {
             Postulante nuevoPostulante = new Postulante(nombre, cedula, direccion, telefono, mail, linkedin, formato, temas);
             this.listaPersonas.add(nuevoPostulante);
             this.listaPostulantes.add(nuevoPostulante);
             setChanged();
             notifyObservers();
-            System.out.println("Creado");
+        } else {
+            throw new Exception("Debe agregar por lo menos 1 tema");
         }
         
-        return !existeCedula;
+        return !noHayTemas;
+    }
+    
+    public Postulante setearPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato) throws Exception {
+        if(nombre.trim().equals("") || direccion.trim().equals("") || telefono.trim().equals("") || mail.trim().equals("")
+                || linkedin.trim().equals("") || formato.trim().equals("")) {
+            throw new ErrorCamposVacios();
+        } else  {
+            if(validarExisteCedula(cedula)) {
+                throw new ErrorCedulaExistente();
+            }
+            
+            boolean sonDigitos = telefono.matches("\\d+");
+            
+            if(!sonDigitos) {
+               throw new Exception("El telefono debe ser un numero");
+            }
+        }
+        
+        Postulante p = new Postulante();
+        p.setCedula(cedula);
+        p.setNombre(nombre);
+        p.setDireccion(direccion);
+        p.setTelefono(telefono);
+        p.setMail(mail);
+        p.setLinkedin(linkedin);
+        p.setFormato(formato);
+        
+        return p;
     }
     
     public boolean validarExisteCedula(String cedula) {
@@ -109,22 +142,47 @@ public class Sistema extends Observable implements Serializable {
         }
     }
     
-    public boolean agregarEvaluador(String nombre, String cedula, String direccion, String anioIngreso) {
-        boolean existeCedula = this.validarExisteCedula(cedula);
+    public void agregarEvaluador(String nombre, String cedula, String direccion, String anioIngreso) throws Exception {
         
-        if(!existeCedula) {
-            Evaluador nuevoEvaluador = new Evaluador(nombre, cedula, direccion, anioIngreso);
-            this.listaPersonas.add(nuevoEvaluador);
-            this.listaEvaluadores.add(nuevoEvaluador);
-            setChanged();
-            notifyObservers();
-            System.out.println("Evaluador Creado");
+        if(nombre.trim().equals("") || direccion.trim().equals("") || anioIngreso.trim().equals("")) {
+            throw new ErrorCamposVacios();
+        } else  {
+            if(validarExisteCedula(cedula)) {
+                throw new ErrorCedulaExistente();
+            }
+            
+            boolean sonDigitos = anioIngreso.matches("\\d+");
+            
+            if(!sonDigitos || Integer.parseInt(anioIngreso) > 2023) {
+               throw new Exception("El año debe ser un numero menor a 2023");
+            }
         }
         
-        return !existeCedula;
+        Evaluador nuevoEvaluador = new Evaluador(nombre, cedula, direccion, anioIngreso);
+        this.listaPersonas.add(nuevoEvaluador);
+        this.listaEvaluadores.add(nuevoEvaluador);
+        setChanged();
+        notifyObservers();
+        
     }
     
-    public void agregarEntrevista(String cedulaPos, String cedulaEval, int puntaje, String comentarios) {
+    public void agregarEntrevista(String cedulaPos, String cedulaEval, int puntaje, String comentarios) throws Exception {
+        System.out.println(cedulaPos);
+        System.out.println(cedulaEval);
+        System.out.println(cedulaPos.trim().equals("") || cedulaEval.trim().equals(""));
+        if(cedulaPos.trim().equals("") || cedulaEval.trim().equals("")) {
+            throw new Exception("Debe seleccionar al menos un postulante y un evaluador");
+        } else {
+           if(comentarios.trim().equals("")) {
+               throw new ErrorCamposVacios();
+           }
+           boolean sonDigitos = String.valueOf(puntaje).matches("\\d+");
+            
+           if(!sonDigitos) {
+                throw new Exception("El puntaje debe ser un numero de 0 a 100");
+           }
+        }
+
         Postulante postulante = null;
         for (Postulante pos : this.listaPostulantes) {
             if(pos.getCedula().equals(cedulaPos)) {

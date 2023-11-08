@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistroPostulante extends javax.swing.JFrame {
     private Sistema sistema;
-    private String formatoaux;
+    private String formatoaux = "";
     /**
      * Creates new form RegistroPostulante2
      */
@@ -227,25 +227,16 @@ public class RegistroPostulante extends javax.swing.JFrame {
         String linkedin = txtPostulanteLinkedin.getText();
         String formato = formatoaux;
         
-        boolean existeCedula = sistema.validarExisteCedula(cedula);
-        Postulante p = new Postulante();
-        p.setCedula(cedula);
-        p.setNombre(nombre);
-        p.setDireccion(direccion);
-        p.setTelefono(telefono);
-        p.setMail(mail);
-        p.setLinkedin(linkedin);
-        p.setFormato(formato);
-        
-        if(!existeCedula) {
+        try {
+            Postulante p = sistema.setearPostulante(nombre, cedula, direccion, telefono, mail, linkedin, formato);
             ExperienciaPostulante ventanaAux = new ExperienciaPostulante(sistema, p, this);
             ventanaAux.setLocation(50, 50);
             ventanaAux.setSize(500, 325);
             ventanaAux.setVisible(true);
-        } else {
-           JOptionPane.showMessageDialog(this, "Postulante ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnSiguientePostulanteActionPerformed
 
     private void radioRemotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioRemotoActionPerformed

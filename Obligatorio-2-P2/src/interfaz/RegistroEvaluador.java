@@ -151,14 +151,15 @@ public class RegistroEvaluador extends javax.swing.JFrame {
         String direccion = txtDireccionEvaluador.getText();
         String anio = txtAnioEvaluador.getText();
         
-        boolean seAgrego = sistema.agregarEvaluador(nombre, cedula, direccion, anio);
-        if (seAgrego) {
+        try {
+            sistema.agregarEvaluador(nombre, cedula, direccion, anio);
             JOptionPane.showMessageDialog(this, "Evaluador creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Evaluador ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+            this.resetearCampos();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        this.resetearCampos();
+
     }//GEN-LAST:event_btnRegistroEvaluadorActionPerformed
 
     private void btnCancelarEvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEvaluadorActionPerformed

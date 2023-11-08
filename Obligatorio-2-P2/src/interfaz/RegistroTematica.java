@@ -4,6 +4,8 @@
  */
 package interfaz;
 import dominio.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -139,19 +141,16 @@ public class RegistroTematica extends javax.swing.JFrame {
         String nombre = txtNombreTematica.getText();
         String descripcion = txtDescripcionTematica.getText();
        
-        boolean seAgrego = sistema.agregarTematica(nombre, descripcion);
-        
-        if(nombre.trim().equals("") || descripcion.trim().equals("")) {
-           JOptionPane.showMessageDialog(this, "Hay campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            if(seAgrego) {
-                JOptionPane.showMessageDialog(this, "Temática creada", "OK", JOptionPane.INFORMATION_MESSAGE);
-                resetearCampos();
-            } else {
-                JOptionPane.showMessageDialog(this, "Temática ya existente", "Error", JOptionPane.ERROR_MESSAGE);
-                resetearCampos();
-            }  
+        try {
+            sistema.agregarTematica(nombre, descripcion);
+            JOptionPane.showMessageDialog(this, "Temática creada", "OK", JOptionPane.INFORMATION_MESSAGE);
+            resetearCampos();
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+
     }//GEN-LAST:event_btnRegistrarTematicaActionPerformed
 
 
