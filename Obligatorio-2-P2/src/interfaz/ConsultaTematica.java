@@ -8,6 +8,8 @@ import dominio.Sistema;
 import dominio.Tematica;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -31,7 +33,19 @@ public class ConsultaTematica extends javax.swing.JFrame implements Observer {
     }
     
     public void cargarLista() {
-        listaTematicas.setListData(sistema.getTematicas().toArray());
+        int tematicas = sistema.getTematicas().size();
+
+        if(tematicas == 0) {
+            
+           JOptionPane.showMessageDialog(this, "No hay Tematicas Creadas", "OK", JOptionPane.INFORMATION_MESSAGE);
+             // Cerrar la ventana después de mostrar el mensaje
+            SwingUtilities.invokeLater(() -> {
+                this.dispose();
+            });
+        } else {
+            listaTematicas.setListData(sistema.getTematicas().toArray());
+        }
+        
     }
 
     /**

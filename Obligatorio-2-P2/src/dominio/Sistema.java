@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ public class Sistema extends Observable implements Serializable {
         return listaEntrevistas;
     }
     
-    public boolean agregarTematica(String nombre, String descripcion) throws Exception {
+    public boolean agregarTematica(String nombre, String descripcion) throws ErrorCamposVacios, ErrorNombreRepetido {
         boolean existeNombre = false;
 
         if(nombre.trim().equals("") || descripcion.trim().equals("")) throw new ErrorCamposVacios();
@@ -69,13 +70,13 @@ public class Sistema extends Observable implements Serializable {
             setChanged();
             notifyObservers();
         } else {
-            throw new Exception("Nombre de tematica ya existente");
+            throw new ErrorNombreRepetido(nombre);
         }
         
         return !existeNombre;
     }
     
-    public boolean agregarPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) throws Exception {
+    public boolean agregarPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato, HashMap<String,String> temas) throws ErrorPostulanteConTema  {
         boolean noHayTemas = temas.isEmpty();
         
         if(!noHayTemas) {
@@ -85,13 +86,13 @@ public class Sistema extends Observable implements Serializable {
             setChanged();
             notifyObservers();
         } else {
-            throw new Exception("Debe agregar por lo menos 1 tema");
+            throw new ErrorPostulanteConTema();
         }
         
         return !noHayTemas;
     }
     
-    public Postulante setearPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato) throws Exception {
+    public Postulante setearPostulante(String nombre, String cedula, String direccion, String telefono, String mail, String linkedin, String formato) throws ErrorCamposVacios, ErrorCedulaExistente{
         if(nombre.trim().equals("") || direccion.trim().equals("") || telefono.trim().equals("") || mail.trim().equals("")
                 || linkedin.trim().equals("") || formato.trim().equals("")) {
             throw new ErrorCamposVacios();
@@ -100,11 +101,8 @@ public class Sistema extends Observable implements Serializable {
                 throw new ErrorCedulaExistente();
             }
             
-            boolean sonDigitos = telefono.matches("\\d+");
+            Utility.validarNumero(telefono);
             
-            if(!sonDigitos) {
-               throw new Exception("El telefono debe ser un numero");
-            }
         }
         
         Postulante p = new Postulante();
@@ -123,7 +121,6 @@ public class Sistema extends Observable implements Serializable {
         boolean existeCedula = false;
         
         for(Persona unaPersona : this.listaPersonas) {
-            System.out.println("aca"+unaPersona.getCedula());
             System.out.println(cedula);
             if(unaPersona.getCedula().equals(cedula)) {
                 existeCedula = true;
@@ -142,7 +139,7 @@ public class Sistema extends Observable implements Serializable {
         }
     }
     
-    public void agregarEvaluador(String nombre, String cedula, String direccion, String anioIngreso) throws Exception {
+    public void agregarEvaluador(String nombre, String cedula, String direccion, String anioIngreso) throws ErrorCamposVacios, ErrorCedulaExistente, ErrorAnioValido {
         
         if(nombre.trim().equals("") || direccion.trim().equals("") || anioIngreso.trim().equals("")) {
             throw new ErrorCamposVacios();
@@ -151,10 +148,10 @@ public class Sistema extends Observable implements Serializable {
                 throw new ErrorCedulaExistente();
             }
             
-            boolean sonDigitos = anioIngreso.matches("\\d+");
+            Utility.validarNumero(anioIngreso);
             
-            if(!sonDigitos || Integer.parseInt(anioIngreso) > 2023) {
-               throw new Exception("El año debe ser un numero menor a 2023");
+            if(Integer.parseInt(anioIngreso) > 2023) {
+               throw new ErrorAnioValido();
             }
         }
         
@@ -166,22 +163,9 @@ public class Sistema extends Observable implements Serializable {
         
     }
     
-    public void agregarEntrevista(String cedulaPos, String cedulaEval, int puntaje, String comentarios) throws Exception {
-        System.out.println(cedulaPos);
-        System.out.println(cedulaEval);
-        System.out.println(cedulaPos.trim().equals("") || cedulaEval.trim().equals(""));
-        if(cedulaPos.trim().equals("") || cedulaEval.trim().equals("")) {
-            throw new Exception("Debe seleccionar al menos un postulante y un evaluador");
-        } else {
-           if(comentarios.trim().equals("")) {
-               throw new ErrorCamposVacios();
-           }
-           boolean sonDigitos = String.valueOf(puntaje).matches("\\d+");
-            
-           if(!sonDigitos) {
-                throw new Exception("El puntaje debe ser un numero de 0 a 100");
-           }
-        }
+    public void agregarEntrevista(String cedulaPos, String cedulaEval, int puntaje, String comentarios) throws ErrorCamposVacios, IllegalArgumentException {
+
+        Utility.validarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
 
         Postulante postulante = null;
         for (Postulante pos : this.listaPostulantes) {
@@ -202,16 +186,18 @@ public class Sistema extends Observable implements Serializable {
         this.listaEntrevistas.add(nuevaEntrevista);
     }
     
-    public boolean agregarPuesto(String unNombre, String tipo, Object[] temasRequeridos) {
+    public void agregarPuesto(String unNombre, String tipo, Object[] temasRequeridos) throws ErrorCamposVacios, ErrorNombreRepetido {
         boolean existeNombre = false;
+
+        if(unNombre.trim().equals("") || tipo.trim().equals("")) {
+            throw new ErrorCamposVacios();
+        }
         
         for(Puesto puesto : this.listaPuestos) {
             if(puesto.getNombre().equalsIgnoreCase(unNombre)) {
                 existeNombre = true;
             }
         }
-        
-        // Esto es necesario?
         
         ArrayList<Tematica> temas = new ArrayList<>();
         for (Object temaReq : temasRequeridos) {
@@ -226,9 +212,10 @@ public class Sistema extends Observable implements Serializable {
             Puesto nuevoPuesto = new Puesto(unNombre, tipo, temas);
             this.listaPuestos.add(nuevoPuesto);
             System.out.println("Puesto agregado:");
+        } else {
+            throw new ErrorNombreRepetido(unNombre);
         }
         
-        return !existeNombre;
     }
     
     public boolean eliminarPostulante(String cedula) {
@@ -285,20 +272,21 @@ public class Sistema extends Observable implements Serializable {
         return p;
     }
     
-    public ArrayList<Postulante> obtenerPostulantesParaPuesto(Puesto unPuesto, String nivel) {
+    public ArrayList<Postulante> obtenerPostulantesParaPuesto(Puesto unPuesto, int nivel) throws IllegalArgumentException {
         ArrayList<Postulante> listaPostulantesCumplen = new ArrayList<>();
         ArrayList<Entrevista> UltimasEntrevistas = new ArrayList<>();
+        
+        Utility.validarNivelPuesto(nivel);
 
         String formaTrabajo = unPuesto.getTipo();
         ArrayList<Tematica> temasRequeridos = unPuesto.getTemasRequeridos();
-        int nivelRequerido = Integer.parseInt(nivel);
         
         this.listaPostulantes.forEach((Postulante p ) -> {
             boolean loTiene = true;
             for(Tematica tema : temasRequeridos) {
                 if(p.getTemas().containsKey(tema.getNombre())) {
                     int nivelTemaPos = Integer.parseInt(p.getTemas().get(tema.getNombre()));
-                    if(nivelTemaPos < nivelRequerido) {
+                    if(nivelTemaPos < nivel) {
                         loTiene = false;
                     }   
                 } else {
@@ -356,13 +344,19 @@ public class Sistema extends Observable implements Serializable {
     }
     
     public void grabarArchivoConsulta(ArchivoGrabacion arch, ArrayList<Postulante> postulantesFiltrados, Puesto puestoSeleccionado) {
-        arch.grabarLinea("Consulta para Puesto: "+puestoSeleccionado.getNombre());
+         try {
+            arch = new ArchivoGrabacion("Consulta.txt");
+            arch.grabarLinea("Consulta para Puesto: "+puestoSeleccionado.getNombre());
         
-        for(Postulante p : postulantesFiltrados) {
-            arch.grabarLinea(p.formatoArchivo());
+            for(Postulante p : postulantesFiltrados) {
+                arch.grabarLinea(p.formatoArchivo());
+            }
         }
-        
-        arch.cerrar();
+        finally {
+            if (arch != null) {
+                arch.cerrar(); 
+            }
+        }
     }
     
     public ArrayList<Entrevista> obtenerEntrevistasPostulante(Postulante p) {

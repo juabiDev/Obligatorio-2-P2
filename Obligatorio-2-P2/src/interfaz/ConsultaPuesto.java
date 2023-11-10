@@ -8,9 +8,12 @@ import dominio.ArchivoGrabacion;
 import dominio.Postulante;
 import dominio.Puesto;
 import dominio.Sistema;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -32,15 +35,35 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
     }
     
     public void cargarListaPuestos() {
-        listaPuestos.setListData(sistema.getPuestos().toArray());
+        int puestos = sistema.getPuestos().size();
+
+        if(puestos == 0) {
+            
+           JOptionPane.showMessageDialog(this, "No hay Puestos Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
+             // Cerrar la ventana después de mostrar el mensaje
+            SwingUtilities.invokeLater(() -> {
+                this.dispose();
+            });
+        } else {
+            listaPuestos.setListData(sistema.getPuestos().toArray());
+        }
+        
     }
 
-    public void cargarListaPostulantes(Puesto unPuesto, String nivel) {
+    public void cargarListaPostulantes(Puesto unPuesto, int nivel) {
         // forma de trabajo
         // nivel seleccionado igual o mayor
         // al menos una entrevista
-        postulantesFiltrados = sistema.obtenerPostulantesParaPuesto(unPuesto,nivel);
-        listaPostulantes.setListData(postulantesFiltrados.toArray());
+        try {
+            postulantesFiltrados = sistema.obtenerPostulantesParaPuesto(unPuesto,nivel);
+            if(postulantesFiltrados.size() == 0) {
+                JOptionPane.showMessageDialog(this, "No hay Postulantes para este puesto", "OK", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                listaPostulantes.setListData(postulantesFiltrados.toArray());
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public void update(Observable o, Object ob) {
@@ -183,16 +206,25 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ArchivoGrabacion arch = new ArchivoGrabacion("Consulta.txt");
-        sistema.grabarArchivoConsulta(arch, postulantesFiltrados, puestoSeleccionado);
+        ArchivoGrabacion arch = null;
+
+        if(postulantesFiltrados.size() > 0 && puestoSeleccionado != null) {
+            sistema.grabarArchivoConsulta(arch, postulantesFiltrados, puestoSeleccionado);
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay datos para generar archivo", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnConsultarPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPuestoActionPerformed
-        puestoSeleccionado = (Puesto) listaPuestos.getSelectedValue();
-        int valor = (int) txtNivel.getValue();
-        String nivel = String.valueOf(valor);
-        
-        cargarListaPostulantes(puestoSeleccionado,nivel);
+        if(listaPuestos.getSelectedValue() == null) {
+             JOptionPane.showMessageDialog(this, "Debe seleccionar un Puesto", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            puestoSeleccionado = (Puesto) listaPuestos.getSelectedValue();
+            int nivel = (int) txtNivel.getValue();
+
+            cargarListaPostulantes(puestoSeleccionado,nivel);
+        }
+
     }//GEN-LAST:event_btnConsultarPuestoActionPerformed
 
 

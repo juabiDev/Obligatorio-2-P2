@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -16,7 +17,7 @@ import javax.swing.ListSelectionModel;
  */
 public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
-    private String formatoaux;
+    private String formatoaux = "";
     /**
      * Creates new form RegistroPuesto
      */
@@ -29,7 +30,19 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     }
     
     public void cargarLista() {
-        listaTemas.setListData(sistema.getTematicas().toArray());
+        int temas = sistema.getTematicas().size();
+        
+        if(temas == 0) {
+            
+           JOptionPane.showMessageDialog(this, "No hay Tematicas Creadas", "OK", JOptionPane.INFORMATION_MESSAGE);
+             // Cerrar la ventana después de mostrar el mensaje
+            SwingUtilities.invokeLater(() -> {
+                this.dispose();
+            });
+        } else {
+            listaTemas.setListData(sistema.getTematicas().toArray());
+        }
+                
     }
     
     public void update(Observable o, Object ob) {
@@ -201,11 +214,15 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
         String formato = formatoaux;
         Object[] selectedValues = listaTemas.getSelectedValuesList().toArray();
         
-        boolean seAgrego = sistema.agregarPuesto(nombre, formato, selectedValues);
-         if (seAgrego) {
-            JOptionPane.showMessageDialog(this, "Puesto creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Puesto ya existente", "Error", JOptionPane.ERROR_MESSAGE);
+        try {
+            if(selectedValues.length > 0) {
+                sistema.agregarPuesto(nombre, formato, selectedValues);
+                JOptionPane.showMessageDialog(this, "Puesto creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un tema", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
          
         this.resetearCampos();

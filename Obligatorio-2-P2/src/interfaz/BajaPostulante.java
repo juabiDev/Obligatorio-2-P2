@@ -110,13 +110,19 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPostulanteActionPerformed
-        String cedulaPostulante = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
-        boolean seElimino = sistema.eliminarPostulante(cedulaPostulante);
-        if (seElimino) {
-            JOptionPane.showMessageDialog(this, "Postulante eliminado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE); 
+        if(listaPostulantes.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un Postulante", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Error al eliminar postulante", "Error", JOptionPane.ERROR_MESSAGE);
+            String cedulaPostulante = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
+            boolean seElimino = sistema.eliminarPostulante(cedulaPostulante);
+            
+            if (seElimino) {
+                JOptionPane.showMessageDialog(this, "Postulante eliminado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE); 
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al eliminar postulante", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
+
     }//GEN-LAST:event_btnEliminarPostulanteActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

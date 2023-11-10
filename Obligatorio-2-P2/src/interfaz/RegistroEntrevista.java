@@ -9,7 +9,11 @@ import dominio.Postulante;
 import dominio.Sistema;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SwingUtilities;
+import javax.swing.text.DefaultFormatter;
 
 /**
  *
@@ -17,7 +21,6 @@ import javax.swing.JOptionPane;
  */
 public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
-    private boolean noHayData = false;
     
     public RegistroEntrevista(Sistema unSistema) {
         sistema = unSistema;
@@ -28,13 +31,25 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
     }
     
     public void cargarListas() {
-        noHayData = listaPostulantes.getModel().getSize() == 0 && listaEvaluadores.getModel().getSize() == 0;
- 
-        listaEvaluadores.setListData(sistema.getEvaluadores().toArray()); 
-        listaPostulantes.setListData(sistema.getPostulantes().toArray());
+        int evaluadores = sistema.getEvaluadores().size();
+        int postulantes = sistema.getEvaluadores().size();
+
+        if(postulantes == 0 || evaluadores == 0) {
+            
+           JOptionPane.showMessageDialog(this, "No hay Evaluadores/Postulantes Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
+             // Cerrar la ventana después de mostrar el mensaje
+            SwingUtilities.invokeLater(() -> {
+                this.dispose();
+            });
+        } else {
+            listaEvaluadores.setListData(sistema.getEvaluadores().toArray()); 
+            listaPostulantes.setListData(sistema.getPostulantes().toArray());
+        }
+                    
 
 
     }
+    
     
     public void resetearCampos() {
         txtPuntaje.setValue(0);
@@ -185,30 +200,23 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
 
     private void btnRegistroEntrevistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroEntrevistaActionPerformed
 
-        // ESTO ESTA MAL, desabilitar el boton hasta que se seleccionen postulante y evaluador
-            if(listaPostulantes.getSelectedValue() == null || listaEvaluadores.getSelectedValue() == null) {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un postulante y un evaluador", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            
-        // ----------------------
 
-            if(!noHayData) {
-                JOptionPane.showMessageDialog(this, "No hay Evaluadores/Postulantes Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                try {
-                    String cedulaPos = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
-                    String cedulaEval = ((Evaluador) listaEvaluadores.getSelectedValue()).getCedula();
-                    int puntaje = (int) txtPuntaje.getValue(); 
-                    String comentarios= txtComentarios.getText();
-                    sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
-                    JOptionPane.showMessageDialog(this, "Entrevista registrada con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
-                    this.resetearCampos();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                if(listaPostulantes.getSelectedValue() == null || listaEvaluadores.getSelectedValue() == null) {
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un postulante y un evaluador", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                        try {
+                            String cedulaPos = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
+                            String cedulaEval = ((Evaluador) listaEvaluadores.getSelectedValue()).getCedula();
+                            int puntaje = (int) txtPuntaje.getValue(); 
+                            String comentarios= txtComentarios.getText();
+                            sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
+                            JOptionPane.showMessageDialog(this, "Entrevista registrada con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
+                            this.resetearCampos();
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                 }
-            }
-        
-
+            
 
             
 
