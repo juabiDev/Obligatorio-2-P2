@@ -9,7 +9,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class RegistroEvaluador extends javax.swing.JFrame {
     private Sistema sistema;

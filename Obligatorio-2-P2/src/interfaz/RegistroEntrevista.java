@@ -9,15 +9,13 @@ import dominio.Postulante;
 import dominio.Sistema;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
-import javax.swing.text.DefaultFormatter;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
     private Sistema sistema;

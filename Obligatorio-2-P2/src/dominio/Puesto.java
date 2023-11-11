@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class Puesto implements Serializable {
     private String nombre;

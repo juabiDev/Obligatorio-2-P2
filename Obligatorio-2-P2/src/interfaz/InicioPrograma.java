@@ -10,7 +10,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class InicioPrograma extends javax.swing.JFrame {
 

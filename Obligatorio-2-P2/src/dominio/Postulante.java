@@ -10,7 +10,8 @@ import java.util.Map;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class Postulante extends Persona {
     private String telefono;

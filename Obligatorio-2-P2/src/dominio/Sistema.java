@@ -4,7 +4,6 @@
  */
 package dominio;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,8 @@ import java.util.Observable;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class Sistema extends Observable implements Serializable {
     private ArrayList<Tematica> listaTematicas;

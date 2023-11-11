@@ -6,7 +6,8 @@ package dominio;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class ErrorPostulanteConTema extends Exception {
     public ErrorPostulanteConTema() {

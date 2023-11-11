@@ -4,12 +4,12 @@
  */
 package interfaz;
 import dominio.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class RegistroTematica extends javax.swing.JFrame {
     private Sistema sistema;

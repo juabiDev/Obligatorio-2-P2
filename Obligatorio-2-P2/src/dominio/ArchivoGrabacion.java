@@ -9,7 +9,8 @@ import java.util.Formatter;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class ArchivoGrabacion {
     private Formatter out;

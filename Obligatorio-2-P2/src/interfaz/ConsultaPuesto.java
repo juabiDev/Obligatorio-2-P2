@@ -8,7 +8,6 @@ import dominio.ArchivoGrabacion;
 import dominio.Postulante;
 import dominio.Puesto;
 import dominio.Sistema;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -17,7 +16,8 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
     private Sistema sistema;

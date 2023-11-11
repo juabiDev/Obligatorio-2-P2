@@ -8,7 +8,8 @@ import java.util.Comparator;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class CriterioPostulantes implements Comparator<Postulante> {
     

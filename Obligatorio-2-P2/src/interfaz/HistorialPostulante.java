@@ -20,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     private Sistema sistema;

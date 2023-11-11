@@ -8,7 +8,8 @@ import java.io.Serializable;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class Persona implements Serializable {
     private String nombre;

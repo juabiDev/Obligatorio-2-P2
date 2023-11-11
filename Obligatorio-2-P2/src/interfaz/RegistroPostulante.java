@@ -10,7 +10,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class RegistroPostulante extends javax.swing.JFrame {
     private Sistema sistema;

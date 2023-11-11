@@ -6,7 +6,8 @@ package dominio;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class ErrorAnioValido extends Exception {
     public ErrorAnioValido() {

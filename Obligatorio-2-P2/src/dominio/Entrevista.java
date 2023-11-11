@@ -5,11 +5,10 @@
 package dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class Entrevista implements Serializable {
     private int nroEntrevista;

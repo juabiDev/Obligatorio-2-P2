@@ -18,7 +18,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class MenuPrincipal extends javax.swing.JFrame {
     private Sistema sistema;
@@ -27,7 +28,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal(boolean datos) throws FileNotFoundException, IOException  {
         if(datos) {
-           try {
+            String path = "sistema.txt";
+            ObjectInputStream in = null;
+            try {
+                in = new ObjectInputStream(new FileInputStream(path));
+                Sistema s = (Sistema) in.readObject();
+                this.sistema = s;
+            } catch (IOException | ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(this, "No se encontraron datos, se inicia el sistema vacío", "Error", JOptionPane.ERROR_MESSAGE);
+                this.sistema = new Sistema();
+            }
+            finally {
+                if(in != null) {
+                    in.close();
+                }
+            }
+        } else {
+            this.sistema = new Sistema();
+        }
+           /* try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream("sistema.txt"));
             Sistema s;
             try {
@@ -46,7 +65,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             
         } else{
             sistema = new Sistema();
-        }
+        }*/
 
         initComponents();
         this.setSize(1000,800);
@@ -269,6 +288,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_formWindowClosing
 
+    private void guardarData() {
+    try {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("sistema.txt"));
+        out.writeObject(this.sistema);
+        out.close();
+    } catch (IOException ex) {
+        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, "Error al escribir en el archivo", ex);
+    } 
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DesktopPanel;
     private javax.swing.JMenuItem jItemBPostulante;
@@ -289,7 +317,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     // End of variables declaration//GEN-END:variables
 
-    private void guardarData() {
+    /* private void guardarData() {
         FileOutputStream ff = null;
         try {
             ff = new FileOutputStream("sistema.txt");
@@ -319,5 +347,5 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
+    } */
 }

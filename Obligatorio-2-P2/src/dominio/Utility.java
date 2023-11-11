@@ -4,17 +4,16 @@
  */
 package dominio;
 
-import java.util.HashMap;
-
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class Utility {
     
     public static void validarNumero(String valor) {
         try {
-            Integer.parseInt(valor);
+            Integer.valueOf(valor);
         } catch(NumberFormatException e) {
             throw new NumberFormatException(valor + " no es un número");
         }

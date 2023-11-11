@@ -13,7 +13,8 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     private Sistema sistema;

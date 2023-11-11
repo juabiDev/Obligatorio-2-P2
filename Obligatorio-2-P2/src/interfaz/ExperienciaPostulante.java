@@ -14,7 +14,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class ExperienciaPostulante extends javax.swing.JFrame implements Observer{
     private Sistema sistema;

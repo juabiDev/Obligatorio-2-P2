@@ -6,12 +6,12 @@ package interfaz;
 
 /**
  *
- * @author User
+ * @author Dana Cizin
+ * @author Fabian Mederos
  */
 public class interfaz {
     public static void main(String [] args) {
         InicioPrograma i = new InicioPrograma();
         i.setVisible(true);
-    }
-    
+    }   
 }
