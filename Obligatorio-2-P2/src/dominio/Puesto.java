@@ -56,6 +56,5 @@ public class Puesto implements Serializable {
     @Override
     public String toString() {
         return this.getNombre();
-    }
-    
+    }   
 }

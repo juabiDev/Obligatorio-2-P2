@@ -5,7 +5,6 @@
 package interfaz;
 
 import dominio.Sistema;
-import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -28,7 +27,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal(boolean datos) throws FileNotFoundException, IOException  {
         if(datos) {
-            String path = "sistema.txt";
+            String path = "sistema.ser";
             ObjectInputStream in = null;
             try {
                 in = new ObjectInputStream(new FileInputStream(path));
@@ -290,7 +289,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void guardarData() {
     try {
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("sistema.txt"));
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("sistema.ser"));
         out.writeObject(this.sistema);
         out.close();
     } catch (IOException ex) {

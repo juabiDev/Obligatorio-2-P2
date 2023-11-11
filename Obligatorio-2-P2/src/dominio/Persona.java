@@ -28,7 +28,6 @@ public class Persona implements Serializable {
         this.direccion = direccion;
     }
     
-
     public String getNombre() {
         return nombre;
     }

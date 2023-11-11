@@ -106,7 +106,8 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     }
     
     public void update(Observable o, Object ob) {
-        cargarLista();
+        cargarDatosPostulante();
+        cargarTabla();
     }
     
 

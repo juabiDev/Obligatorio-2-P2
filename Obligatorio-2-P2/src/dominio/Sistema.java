@@ -88,7 +88,7 @@ public class Sistema extends Observable implements Serializable {
         } else {
             throw new ErrorPostulanteConTema();
         }
-        
+       
         return !noHayTemas;
     }
     
@@ -99,10 +99,8 @@ public class Sistema extends Observable implements Serializable {
         } else  {
             if(validarExisteCedula(cedula)) {
                 throw new ErrorCedulaExistente();
-            }
-            
-            Utility.validarNumero(telefono);
-            
+            }    
+            Utility.validarNumero(telefono);     
         }
         
         Postulante p = new Postulante();
@@ -121,11 +119,12 @@ public class Sistema extends Observable implements Serializable {
         boolean existeCedula = false;
         
         for(Persona unaPersona : this.listaPersonas) {
-            System.out.println(cedula);
             if(unaPersona.getCedula().equals(cedula)) {
                 existeCedula = true;
             }
         }
+        
+        Utility.validarNumero(cedula);
         
         return existeCedula;
     }
@@ -159,12 +158,10 @@ public class Sistema extends Observable implements Serializable {
         this.listaPersonas.add(nuevoEvaluador);
         this.listaEvaluadores.add(nuevoEvaluador);
         setChanged();
-        notifyObservers();
-        
+        notifyObservers();    
     }
     
-    public void agregarEntrevista(String cedulaPos, String cedulaEval, int puntaje, String comentarios) throws ErrorCamposVacios, IllegalArgumentException {
-
+    public int agregarEntrevista(String cedulaPos, String cedulaEval, int puntaje, String comentarios) throws ErrorCamposVacios, IllegalArgumentException {
         Utility.validarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
 
         Postulante postulante = null;
@@ -181,9 +178,13 @@ public class Sistema extends Observable implements Serializable {
             }
         }
         
-        Entrevista nuevaEntrevista = new Entrevista(postulante, evaluador, puntaje, comentarios);    
-        
+        Entrevista nuevaEntrevista = new Entrevista(postulante, evaluador, puntaje, comentarios);   
         this.listaEntrevistas.add(nuevaEntrevista);
+        int identificador = nuevaEntrevista.getNroEntrevista();
+        nuevaEntrevista.setNroEntrevista(identificador);
+        setChanged();
+        notifyObservers(); 
+        return identificador;
     }
     
     public void agregarPuesto(String unNombre, String tipo, Object[] temasRequeridos) throws ErrorCamposVacios, ErrorNombreRepetido {
@@ -211,7 +212,6 @@ public class Sistema extends Observable implements Serializable {
         if(!existeNombre) {
             Puesto nuevoPuesto = new Puesto(unNombre, tipo, temas);
             this.listaPuestos.add(nuevoPuesto);
-            System.out.println("Puesto agregado:");
         } else {
             throw new ErrorNombreRepetido(unNombre);
         }

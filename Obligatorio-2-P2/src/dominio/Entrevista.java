@@ -11,16 +11,15 @@ import java.io.Serializable;
  * @author Fabian Mederos
  */
 public class Entrevista implements Serializable {
+    private static int CantidadEntrevistas = 1;
     private int nroEntrevista;
     private Postulante postulante;
     private Evaluador entrevistador;
     private int puntaje;
     private String comentarios;
-    
-    private static int cantidadEntrevistas = 0;
 
     public Entrevista(Postulante postulante, Evaluador entrevistador, int puntaje, String comentarios) {
-        this.nroEntrevista = ++cantidadEntrevistas;
+        this.nroEntrevista = CantidadEntrevistas++;
         this.postulante = postulante;
         this.entrevistador = entrevistador;
         this.puntaje = puntaje;
@@ -28,7 +27,7 @@ public class Entrevista implements Serializable {
     }
 
     public int getNroEntrevista() {
-        return nroEntrevista;
+        return this.nroEntrevista;
     }
 
     public void setNroEntrevista(int nroEntrevista) {
@@ -68,7 +67,7 @@ public class Entrevista implements Serializable {
     }
 
     public static int getCantidadEntrevistas() {
-        return cantidadEntrevistas;
+        return CantidadEntrevistas;
     }
 
     public static void setCantidadEntrevistas(int cantidadEntrevistas) {

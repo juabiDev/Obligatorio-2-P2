@@ -11,7 +11,7 @@ package dominio;
  */
 public class ErrorCamposVacios extends Exception {
     public ErrorCamposVacios() {
-        super("Campos Vacios");
+        super("Existen campos vacíos");
     }
  
 }

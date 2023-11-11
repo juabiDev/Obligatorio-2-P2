@@ -11,7 +11,6 @@ package dominio;
  */
 public class ErrorAnioValido extends Exception {
     public ErrorAnioValido() {
-        super("El año debe ser un numero menor a 2023");
-    } 
-    
+        super("El año debe ser un número menor a 2023");
+    }    
 }

@@ -4,9 +4,11 @@
  */
 package interfaz;
 
+import dominio.ErrorCamposVacios;
 import dominio.Evaluador;
 import dominio.Postulante;
 import dominio.Sistema;
+import java.awt.HeadlessException;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
@@ -43,11 +45,7 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
             listaEvaluadores.setListData(sistema.getEvaluadores().toArray()); 
             listaPostulantes.setListData(sistema.getPostulantes().toArray());
         }
-                    
-
-
     }
-    
     
     public void resetearCampos() {
         txtPuntaje.setValue(0);
@@ -207,10 +205,10 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
                             String cedulaEval = ((Evaluador) listaEvaluadores.getSelectedValue()).getCedula();
                             int puntaje = (int) txtPuntaje.getValue(); 
                             String comentarios= txtComentarios.getText();
-                            sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
-                            JOptionPane.showMessageDialog(this, "Entrevista registrada con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
+                            int identificador = sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
+                            JOptionPane.showMessageDialog(this, "Entrevista nro" + identificador + " registrada con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
                             this.resetearCampos();
-                        } catch (Exception ex) {
+                        } catch (ErrorCamposVacios | HeadlessException | IllegalArgumentException ex) {
                             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                 }
