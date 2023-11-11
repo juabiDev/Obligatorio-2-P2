@@ -45,5 +45,4 @@ public class Tematica implements Serializable {
     public String toString() {
         return nombre;
     }
-    
 }

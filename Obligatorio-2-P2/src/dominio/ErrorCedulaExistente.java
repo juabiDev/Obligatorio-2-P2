@@ -13,5 +13,4 @@ public class ErrorCedulaExistente extends Exception {
     public ErrorCedulaExistente() {
         super("Cédula ya existente");
     }
-    
 }

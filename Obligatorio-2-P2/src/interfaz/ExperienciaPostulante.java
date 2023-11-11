@@ -4,8 +4,10 @@
  */
 package interfaz;
 
+import dominio.ErrorPostulanteConTema;
 import dominio.Postulante;
 import dominio.Sistema;
+import java.awt.HeadlessException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -23,9 +25,6 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
     private HashMap<String,String> temasPostulantes;
     private RegistroPostulante referencia;
 
-    /**
-     * Creates new form ExperienciaPostulante2
-     */
     public ExperienciaPostulante(Sistema unSistema, Postulante unPostulante, RegistroPostulante unaReferencia) {
         sistema = unSistema;
         postulante = unPostulante;
@@ -241,7 +240,7 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
             JOptionPane.showMessageDialog(this, "Postulante creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             referencia.resetearCampos();
-        } catch (Exception ex) {
+        } catch (ErrorPostulanteConTema | HeadlessException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarPostulanteActionPerformed

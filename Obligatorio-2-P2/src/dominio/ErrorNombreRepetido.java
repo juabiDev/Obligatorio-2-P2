@@ -13,5 +13,4 @@ public class ErrorNombreRepetido extends Exception {
     public ErrorNombreRepetido(String nombre) {
         super(nombre + " ya existente");
     } 
-    
 }

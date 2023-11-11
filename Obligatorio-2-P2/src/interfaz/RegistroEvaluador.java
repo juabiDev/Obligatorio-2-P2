@@ -4,7 +4,11 @@
  */
 package interfaz;
 
+import dominio.ErrorAnioValido;
+import dominio.ErrorCamposVacios;
+import dominio.ErrorCedulaExistente;
 import dominio.Sistema;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 
 /**
@@ -156,11 +160,9 @@ public class RegistroEvaluador extends javax.swing.JFrame {
             sistema.agregarEvaluador(nombre, cedula, direccion, anio);
             JOptionPane.showMessageDialog(this, "Evaluador creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
             this.resetearCampos();
-
-        } catch (Exception ex) {
+        } catch (ErrorAnioValido | ErrorCamposVacios | ErrorCedulaExistente | HeadlessException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_btnRegistroEvaluadorActionPerformed
 
     private void btnCancelarEvaluadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEvaluadorActionPerformed

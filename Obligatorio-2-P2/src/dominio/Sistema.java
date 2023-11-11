@@ -243,7 +243,6 @@ public class Sistema extends Observable implements Serializable {
                     notifyObservers();
                 }
             }
-
         }
         return existeCedula;
     }

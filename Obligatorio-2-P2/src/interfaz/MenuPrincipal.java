@@ -22,9 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class MenuPrincipal extends javax.swing.JFrame {
     private Sistema sistema;
-    /**
-     * Creates new form NewJFrame
-     */
+
     public MenuPrincipal(boolean datos) throws FileNotFoundException, IOException  {
         if(datos) {
             String path = "sistema.ser";
@@ -70,7 +68,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.setSize(1000,800);
     }
     
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

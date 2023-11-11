@@ -26,9 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     private Sistema sistema;
     private Postulante postulante;
-    /**
-     * Creates new form HistorialPostulante
-     */
+
     public HistorialPostulante(Sistema unSistema) {
         sistema = unSistema;
         sistema.addObserver(this);
@@ -40,10 +38,8 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     public void cargarLista() {
         ArrayList<Postulante> listaAux = sistema.getPostulantes();
         
-        if(listaAux.size() == 0) {
-            
-           JOptionPane.showMessageDialog(this, "No hay Postulantes Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
-             // Cerrar la ventana después de mostrar el mensaje
+        if(listaAux.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay Postulantes Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
             SwingUtilities.invokeLater(() -> {
                 this.dispose();
             });
@@ -51,20 +47,16 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             Collections.sort(listaAux, new CriterioPostulantes());
             listaPostulantes.setListData(listaAux.toArray());
         }
-                
-
     }
     
     public void cargarTabla() {
-        
         DefaultTableModel modelo = (DefaultTableModel) tablaEntrevistas.getModel();
-        modelo.setRowCount(0); // Limpia cualquier dato existente en la tabla
+        modelo.setRowCount(0);
 
         for (Entrevista e : sistema.obtenerEntrevistasPostulante(postulante)) {
             Object[] fila = {e.getNroEntrevista(), e.getEntrevistador().formatoTabla(), e.getPuntaje(), e.getComentarios()};
             modelo.addRow(fila);
-        }
-        
+        }    
     }
     
     public void limpiarBusqueda() {
@@ -83,8 +75,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         tablaEntrevistas.updateUI();
     }
     
-    public void cargarDatosPostulante() {
-        
+    public void cargarDatosPostulante() {     
         textArea.setText("");
         txtCedulaHistorial.setText(postulante.getCedula());
         txtNombreHistorial.setText(postulante.getNombre());
@@ -102,7 +93,6 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         for(String t : temas) {
             textArea.append(t + "\n");
         }
-
     }
     
     public void update(Observable o, Object ob) {
@@ -110,7 +100,6 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         cargarTabla();
     }
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -350,13 +339,11 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             JOptionPane.showMessageDialog(this, "Debe seleccionar un Postulante", "OK", JOptionPane.INFORMATION_MESSAGE);
         } else {
             String texto = txtBuscar.getText().toLowerCase();
-
             DefaultTableModel modelo = (DefaultTableModel) tablaEntrevistas.getModel();
 
             limpiarBusqueda();
             
             int cantidadCoincidencias = 0;
-
             for (int row = 0; row < modelo.getRowCount(); row++) {
                 String comentarios = modelo.getValueAt(row, 3).toString().toLowerCase();
                 String comentariosFormateados = comentarios;
@@ -365,16 +352,12 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
                     comentariosFormateados = comentarios.replaceAll(texto, "<font color='red'>" + texto + "</font>");
                     modelo.setValueAt("<html>" + comentariosFormateados + "</html>", row, 3);
                 }
-
             }
             
             if(cantidadCoincidencias == 0) {
                JOptionPane.showMessageDialog(this, "No se encontraron coincidencias", "OK", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
+            }   
         }
-        
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void listaPostulantesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPostulantesValueChanged

@@ -4,6 +4,8 @@
  */
 package interfaz;
 
+import dominio.ErrorCamposVacios;
+import dominio.ErrorCedulaExistente;
 import dominio.Postulante;
 import dominio.Sistema;
 import javax.swing.JOptionPane;
@@ -16,9 +18,7 @@ import javax.swing.JOptionPane;
 public class RegistroPostulante extends javax.swing.JFrame {
     private Sistema sistema;
     private String formatoaux = "";
-    /**
-     * Creates new form RegistroPostulante2
-     */
+
     public RegistroPostulante(Sistema unSistema) {
         sistema = unSistema;
         initComponents();
@@ -234,15 +234,13 @@ public class RegistroPostulante extends javax.swing.JFrame {
             ventanaAux.setLocation(50, 50);
             ventanaAux.setSize(500, 325);
             ventanaAux.setVisible(true);
-        } catch (Exception ex) {
+        } catch (ErrorCamposVacios | ErrorCedulaExistente ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_btnSiguientePostulanteActionPerformed
 
     private void radioRemotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioRemotoActionPerformed
        formatoaux = buttonGroup1.getSelection().isSelected() ? "remoto" : "";
-
     }//GEN-LAST:event_radioRemotoActionPerformed
 
     private void radioPresencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioPresencialActionPerformed

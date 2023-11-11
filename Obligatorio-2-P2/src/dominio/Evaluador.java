@@ -28,5 +28,4 @@ public class Evaluador extends Persona {
     public String formatoTabla() {
         return this.getNombre() + " (" + this.getCedula() + ")";
     }
-    
 }

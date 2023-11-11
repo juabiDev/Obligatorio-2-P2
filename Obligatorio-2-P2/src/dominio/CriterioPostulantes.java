@@ -12,10 +12,8 @@ import java.util.Comparator;
  * @author Fabian Mederos
  */
 public class CriterioPostulantes implements Comparator<Postulante> {
-    
     @Override
     public int compare(Postulante p1, Postulante p2) {
         return Integer.parseInt(p1.getCedula()) - Integer.parseInt(p2.getCedula());
-    }
-    
+    }  
 }

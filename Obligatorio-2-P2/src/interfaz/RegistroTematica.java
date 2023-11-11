@@ -4,6 +4,7 @@
  */
 package interfaz;
 import dominio.*;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,9 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistroTematica extends javax.swing.JFrame {
     private Sistema sistema;
-    /**
-     * Creates new form RegistroTematica2
-     */
+
     public RegistroTematica(Sistema unSistema) {
         sistema = unSistema;
         initComponents();
@@ -26,7 +25,6 @@ public class RegistroTematica extends javax.swing.JFrame {
         txtNombreTematica.setText("");
         txtDescripcionTematica.setText("");
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -144,13 +142,10 @@ public class RegistroTematica extends javax.swing.JFrame {
         try {
             sistema.agregarTematica(nombre, descripcion);
             JOptionPane.showMessageDialog(this, "Temática creada", "OK", JOptionPane.INFORMATION_MESSAGE);
-            resetearCampos();
-            
-        } catch (Exception ex) {
+            resetearCampos();   
+        } catch (ErrorCamposVacios | ErrorNombreRepetido | HeadlessException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-
     }//GEN-LAST:event_btnRegistrarTematicaActionPerformed
 
 

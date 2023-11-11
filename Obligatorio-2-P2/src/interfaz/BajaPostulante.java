@@ -17,9 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class BajaPostulante extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
-    /**
-     * Creates new form BajaPostulante
-     */
+
     public BajaPostulante(Sistema unSistema) {
         sistema = unSistema;
         sistema.addObserver(this);
@@ -123,7 +121,6 @@ public class BajaPostulante extends javax.swing.JFrame implements Observer {
                 JOptionPane.showMessageDialog(this, "Error al eliminar postulante", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-
     }//GEN-LAST:event_btnEliminarPostulanteActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

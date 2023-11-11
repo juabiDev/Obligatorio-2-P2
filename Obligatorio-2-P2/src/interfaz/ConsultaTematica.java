@@ -18,9 +18,7 @@ import javax.swing.SwingUtilities;
  */
 public class ConsultaTematica extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
-    /**
-     * Creates new form ConsultaTematica
-     */
+    
     public ConsultaTematica(Sistema unSistema) {
         sistema = unSistema;
         sistema.addObserver(this);
@@ -37,16 +35,13 @@ public class ConsultaTematica extends javax.swing.JFrame implements Observer {
         int tematicas = sistema.getTematicas().size();
 
         if(tematicas == 0) {
-            
-           JOptionPane.showMessageDialog(this, "No hay Tematicas Creadas", "OK", JOptionPane.INFORMATION_MESSAGE);
-             // Cerrar la ventana después de mostrar el mensaje
+            JOptionPane.showMessageDialog(this, "No hay Tematicas Creadas", "OK", JOptionPane.INFORMATION_MESSAGE);
             SwingUtilities.invokeLater(() -> {
                 this.dispose();
             });
         } else {
             listaTematicas.setListData(sistema.getTematicas().toArray());
-        }
-        
+        }    
     }
 
     /**

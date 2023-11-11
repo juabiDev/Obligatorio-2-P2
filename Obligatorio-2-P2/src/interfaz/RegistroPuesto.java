@@ -4,7 +4,10 @@
  */
 package interfaz;
 
+import dominio.ErrorCamposVacios;
+import dominio.ErrorNombreRepetido;
 import dominio.Sistema;
+import java.awt.HeadlessException;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
@@ -19,9 +22,7 @@ import javax.swing.SwingUtilities;
 public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
     private String formatoaux = "";
-    /**
-     * Creates new form RegistroPuesto
-     */
+
     public RegistroPuesto(Sistema unSistema) {
         sistema = unSistema;
         sistema.addObserver(this);
@@ -33,17 +34,14 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
     public void cargarLista() {
         int temas = sistema.getTematicas().size();
         
-        if(temas == 0) {
-            
-           JOptionPane.showMessageDialog(this, "No hay Tematicas Creadas", "OK", JOptionPane.INFORMATION_MESSAGE);
-             // Cerrar la ventana después de mostrar el mensaje
+        if(temas == 0) {        
+            JOptionPane.showMessageDialog(this, "No hay Tematicas Creadas", "OK", JOptionPane.INFORMATION_MESSAGE);
             SwingUtilities.invokeLater(() -> {
-                this.dispose();
+               this.dispose();
             });
         } else {
             listaTemas.setListData(sistema.getTematicas().toArray());
         }
-                
     }
     
     public void update(Observable o, Object ob) {
@@ -222,8 +220,8 @@ public class RegistroPuesto extends javax.swing.JFrame implements Observer {
             } else {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un tema", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception ex) {
-             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ErrorCamposVacios | ErrorNombreRepetido | HeadlessException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
          
         this.resetearCampos();

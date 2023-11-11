@@ -27,8 +27,7 @@ public class Utility {
             
         if(!validarRango(puntaje,0,100)) {
             throw new IllegalArgumentException("El puntaje debe ser un numero de 0 a 100");
-        }
-        
+        }      
     }
     
     public static void validarNivelPuesto(int nivel) throws IllegalArgumentException {
@@ -40,5 +39,4 @@ public class Utility {
     private static boolean validarRango(int numero, int min, int max) {
         return (numero >= min && numero <= max);
     }
-
 }

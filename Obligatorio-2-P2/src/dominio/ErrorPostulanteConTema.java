@@ -13,5 +13,4 @@ public class ErrorPostulanteConTema extends Exception {
     public ErrorPostulanteConTema() {
         super("Debe agregar por lo menos 1 tema");
     } 
-   
 }

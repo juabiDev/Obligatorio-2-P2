@@ -8,6 +8,7 @@ import dominio.ArchivoGrabacion;
 import dominio.Postulante;
 import dominio.Puesto;
 import dominio.Sistema;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,9 +24,7 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
     private Sistema sistema;
     private ArrayList<Postulante> postulantesFiltrados = new ArrayList<>();
     private Puesto puestoSeleccionado;
-    /**
-     * Creates new form ConsultaPuesto
-     */
+
     public ConsultaPuesto(Sistema unSistema) {
         sistema = unSistema;
         sistema.addObserver(this);
@@ -34,40 +33,38 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
         cargarListaPuestos();
     }
     
+    public void resetear() {
+        listaPuestos.setListData(sistema.getPuestos().toArray());
+    }
+    
     public void cargarListaPuestos() {
         int puestos = sistema.getPuestos().size();
 
-        if(puestos == 0) {
-            
-           JOptionPane.showMessageDialog(this, "No hay Puestos Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
-             // Cerrar la ventana después de mostrar el mensaje
+        if(puestos == 0) { 
+            JOptionPane.showMessageDialog(this, "No hay Puestos Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
             SwingUtilities.invokeLater(() -> {
-                this.dispose();
+               this.dispose();
             });
         } else {
             listaPuestos.setListData(sistema.getPuestos().toArray());
-        }
-        
+        } 
     }
 
     public void cargarListaPostulantes(Puesto unPuesto, int nivel) {
-        // forma de trabajo
-        // nivel seleccionado igual o mayor
-        // al menos una entrevista
         try {
             postulantesFiltrados = sistema.obtenerPostulantesParaPuesto(unPuesto,nivel);
-            if(postulantesFiltrados.size() == 0) {
+            if(postulantesFiltrados.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay Postulantes para este puesto", "OK", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 listaPostulantes.setListData(postulantesFiltrados.toArray());
             }
-        } catch (Exception ex) {
+        } catch (HeadlessException | IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     public void update(Observable o, Object ob) {
-        cargarListaPuestos();
+        resetear();
     }
 
     /**
@@ -224,9 +221,7 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
 
             cargarListaPostulantes(puestoSeleccionado,nivel);
         }
-
     }//GEN-LAST:event_btnConsultarPuestoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultarPuesto;

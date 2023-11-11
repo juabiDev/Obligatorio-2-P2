@@ -35,9 +35,7 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
         int postulantes = sistema.getEvaluadores().size();
 
         if(postulantes == 0 || evaluadores == 0) {
-            
-           JOptionPane.showMessageDialog(this, "No hay Evaluadores/Postulantes Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
-             // Cerrar la ventana después de mostrar el mensaje
+            JOptionPane.showMessageDialog(this, "No hay Evaluadores/Postulantes Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
             SwingUtilities.invokeLater(() -> {
                 this.dispose();
             });
@@ -195,27 +193,21 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroEntrevistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroEntrevistaActionPerformed
-
-
-                if(listaPostulantes.getSelectedValue() == null || listaEvaluadores.getSelectedValue() == null) {
-                    JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un postulante y un evaluador", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                        try {
-                            String cedulaPos = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
-                            String cedulaEval = ((Evaluador) listaEvaluadores.getSelectedValue()).getCedula();
-                            int puntaje = (int) txtPuntaje.getValue(); 
-                            String comentarios= txtComentarios.getText();
-                            int identificador = sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
-                            JOptionPane.showMessageDialog(this, "Entrevista nro" + identificador + " registrada con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
-                            this.resetearCampos();
-                        } catch (ErrorCamposVacios | HeadlessException | IllegalArgumentException ex) {
-                            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                }
-            
-
-            
-
+        if(listaPostulantes.getSelectedValue() == null || listaEvaluadores.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un postulante y un evaluador", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                String cedulaPos = ((Postulante) listaPostulantes.getSelectedValue()).getCedula();
+                String cedulaEval = ((Evaluador) listaEvaluadores.getSelectedValue()).getCedula();
+                int puntaje = (int) txtPuntaje.getValue(); 
+                String comentarios= txtComentarios.getText();
+                int identificador = sistema.agregarEntrevista(cedulaPos, cedulaEval, puntaje, comentarios);
+                JOptionPane.showMessageDialog(this, "Entrevista nro" + identificador + " registrada con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
+                this.resetearCampos();
+            } catch (ErrorCamposVacios | HeadlessException | IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnRegistroEntrevistaActionPerformed
 
     private void btnCancelarEntrevistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEntrevistaActionPerformed

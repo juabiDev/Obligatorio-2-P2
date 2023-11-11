@@ -7,6 +7,7 @@ package interfaz;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,9 +16,6 @@ import java.util.logging.Logger;
  */
 public class InicioPrograma extends javax.swing.JFrame {
 
-    /**
-     * Creates new form InicioPrograma
-     */
     public InicioPrograma() {
         initComponents();
         this.setSize(400,150);
@@ -95,24 +93,23 @@ public class InicioPrograma extends javax.swing.JFrame {
         MenuPrincipal m = null;
         try {
             m = new MenuPrincipal(true);
+            m.setVisible(true);
+            this.dispose();
         } catch (IOException ex) {
-            Logger.getLogger(InicioPrograma.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al iniciar programa", "OK", JOptionPane.INFORMATION_MESSAGE);
         }
-        m.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnDatosGuardadosActionPerformed
 
     private void btnDatosVacioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosVacioActionPerformed
         MenuPrincipal m = null;
         try {
             m = new MenuPrincipal(false);
+            m.setVisible(true);
+            this.dispose();
         } catch (IOException ex) {
-            Logger.getLogger(InicioPrograma.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al iniciar programa", "OK", JOptionPane.INFORMATION_MESSAGE);
         }
-        m.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnDatosVacioActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDatosGuardados;
