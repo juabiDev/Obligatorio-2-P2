@@ -4,6 +4,7 @@
  */
 package interfaz;
 
+import dominio.Entrevista;
 import dominio.Sistema;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +25,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private Sistema sistema;
 
     public MenuPrincipal(boolean datos) throws FileNotFoundException, IOException  {
+
         if(datos) {
             String path = "sistema.ser";
             ObjectInputStream in = null;
@@ -31,11 +33,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 in = new ObjectInputStream(new FileInputStream(path));
                 Sistema s = (Sistema) in.readObject();
                 this.sistema = s;
+
+                // Establecer el valor correcto de CantidadEntrevistas después de la deserialización
+                Entrevista.setCantidadEntrevistas(sistema.getEntrevistas().size() + 1);
+
             } catch (IOException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(this, "No se encontraron datos, se inicia el sistema vacío", "Error", JOptionPane.ERROR_MESSAGE);
                 this.sistema = new Sistema();
-            }
-            finally {
+            } finally {
                 if(in != null) {
                     in.close();
                 }
@@ -43,26 +48,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         } else {
             this.sistema = new Sistema();
         }
-           /* try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("sistema.txt"));
-            Sistema s;
-            try {
-                s = (Sistema) in.readObject();
-                this.sistema = s;
-                System.out.println(s.getTematicas().size());
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            in.close();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "No se encontraron datos, se inicia el sistema vacío", "Error", JOptionPane.ERROR_MESSAGE);
-            sistema = new Sistema();
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-        } else{
-            sistema = new Sistema();
-        }*/
 
         initComponents();
         this.setSize(1000,800);

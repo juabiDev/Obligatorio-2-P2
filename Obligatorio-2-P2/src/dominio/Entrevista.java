@@ -70,9 +70,10 @@ public class Entrevista implements Serializable {
         return CantidadEntrevistas;
     }
 
-    public static void setCantidadEntrevistas(int cantidadEntrevistas) {
-        cantidadEntrevistas++;
+    public static void setCantidadEntrevistas(int cantidad) {
+        CantidadEntrevistas = cantidad;
     }
+
     
     public int compareTo(Entrevista unaEntrevista) {
         return unaEntrevista.getPuntaje() - this.getPuntaje();
