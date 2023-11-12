@@ -30,11 +30,16 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
         cargarListas();
     }
     
+    public void resetear() {
+        listaEvaluadores.setListData(sistema.getEvaluadores().toArray()); 
+        listaPostulantes.setListData(sistema.getPostulantes().toArray());
+    }
+    
     public void cargarListas() {
         int evaluadores = sistema.getEvaluadores().size();
-        int postulantes = sistema.getEvaluadores().size();
+        int postulantes = sistema.getPostulantes().size();
 
-        if(postulantes == 0 || evaluadores == 0) {
+        if(postulantes == 0 && evaluadores == 0) {
             JOptionPane.showMessageDialog(this, "No hay Evaluadores/Postulantes Creados", "OK", JOptionPane.INFORMATION_MESSAGE);
             SwingUtilities.invokeLater(() -> {
                 this.dispose();
@@ -53,7 +58,7 @@ public class RegistroEntrevista extends javax.swing.JFrame implements Observer {
     }
     
     public void update(Observable o, Object ob) {
-        cargarListas();
+        resetear();
     }
 
     /**

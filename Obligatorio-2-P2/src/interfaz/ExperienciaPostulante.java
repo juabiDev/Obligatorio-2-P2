@@ -224,9 +224,13 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
     }//GEN-LAST:event_btnAgregarTemaActionPerformed
 
     private void btnEliminarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTemaActionPerformed
-       String clave = listaTemas.getSelectedValue().toString().split(" ")[0];
-       temasPostulantes.remove(clave);
-       cargarLista();
+        if (listaTemas.getSelectedValue() == null) {
+           JOptionPane.showMessageDialog(this, "Debe seleccionar un tema para eliminar", "OK", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+           String clave = listaTemas.getSelectedValue().toString().split(" ")[0];
+           temasPostulantes.remove(clave);
+           cargarLista(); 
+        }
     }//GEN-LAST:event_btnEliminarTemaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

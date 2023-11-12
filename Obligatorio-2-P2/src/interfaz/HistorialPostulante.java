@@ -96,8 +96,11 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     }
     
     public void update(Observable o, Object ob) {
-        cargarDatosPostulante();
+        cargarLista();
         cargarTabla();
+        if(postulante != null) {
+            listaPostulantes.setSelectedValue(postulante, true);
+        }
     }
     
     /**
@@ -154,62 +157,62 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setText("Nombre:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(310, 70, 70, 14);
+        jLabel2.setBounds(310, 70, 90, 20);
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setText("Cédula:");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(310, 100, 70, 14);
+        jLabel3.setBounds(310, 100, 90, 20);
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel4.setText("Dirección:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(310, 130, 80, 14);
+        jLabel4.setBounds(310, 130, 90, 20);
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel5.setText("Teléfono:");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(310, 150, 80, 30);
+        jLabel5.setBounds(310, 160, 90, 20);
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel6.setText("Mail:");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(310, 180, 50, 20);
+        jLabel6.setBounds(310, 190, 90, 20);
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel7.setText("Linkedin:");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(310, 210, 80, 14);
+        jLabel7.setBounds(310, 220, 90, 20);
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel8.setText("Formato:");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(310, 240, 80, 14);
+        jLabel8.setBounds(310, 250, 90, 20);
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel9.setText("Experiencia:");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(310, 270, 100, 14);
+        jLabel9.setBounds(310, 280, 90, 20);
 
         txtNombreHistorial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(txtNombreHistorial);
-        txtNombreHistorial.setBounds(390, 70, 370, 20);
+        txtNombreHistorial.setBounds(400, 70, 340, 20);
 
         txtCedulaHistorial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(txtCedulaHistorial);
-        txtCedulaHistorial.setBounds(390, 100, 370, 20);
+        txtCedulaHistorial.setBounds(400, 100, 340, 20);
 
         txtDireccionHistorial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(txtDireccionHistorial);
-        txtDireccionHistorial.setBounds(390, 130, 370, 20);
+        txtDireccionHistorial.setBounds(400, 130, 340, 20);
 
         txtTelefonoHistorial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(txtTelefonoHistorial);
-        txtTelefonoHistorial.setBounds(390, 150, 370, 20);
+        txtTelefonoHistorial.setBounds(400, 160, 340, 20);
 
         txtMailHistorial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(txtMailHistorial);
-        txtMailHistorial.setBounds(390, 180, 340, 20);
+        txtMailHistorial.setBounds(400, 190, 340, 20);
 
         txtLinkedinHistorial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtLinkedinHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -218,11 +221,11 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             }
         });
         jPanel1.add(txtLinkedinHistorial);
-        txtLinkedinHistorial.setBounds(390, 200, 360, 20);
+        txtLinkedinHistorial.setBounds(400, 220, 340, 20);
 
         txtFormatoHistorial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(txtFormatoHistorial);
-        txtFormatoHistorial.setBounds(390, 240, 350, 20);
+        txtFormatoHistorial.setBounds(400, 250, 340, 20);
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel10.setText("Postulantes:");
@@ -255,7 +258,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             }
         });
         jPanel1.add(btnBuscar);
-        btnBuscar.setBounds(330, 420, 100, 22);
+        btnBuscar.setBounds(330, 420, 100, 23);
 
         btnResetear.setText("Resetear");
         btnResetear.addActionListener(new java.awt.event.ActionListener() {
@@ -264,7 +267,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             }
         });
         jPanel1.add(btnResetear);
-        btnResetear.setBounds(440, 420, 100, 22);
+        btnResetear.setBounds(440, 420, 100, 23);
 
         tablaEntrevistas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -309,7 +312,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             }
         });
         jPanel1.add(btnSalir);
-        btnSalir.setBounds(10, 590, 100, 22);
+        btnSalir.setBounds(10, 590, 100, 23);
 
         textArea.setEditable(false);
         textArea.setColumns(20);
@@ -317,7 +320,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         jScrollPane4.setViewportView(textArea);
 
         jPanel1.add(jScrollPane4);
-        jScrollPane4.setBounds(400, 270, 350, 130);
+        jScrollPane4.setBounds(400, 290, 340, 110);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 760, 630);
@@ -361,9 +364,11 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void listaPostulantesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPostulantesValueChanged
-        postulante = sistema.obtenerPostulante(((Postulante) listaPostulantes.getSelectedValue()).getCedula());
-        cargarTabla();
-        cargarDatosPostulante();
+        if(listaPostulantes.getSelectedValue() != null) {
+            postulante = sistema.obtenerPostulante(((Postulante) listaPostulantes.getSelectedValue()).getCedula());
+            cargarTabla();
+            cargarDatosPostulante();            
+        }
     }//GEN-LAST:event_listaPostulantesValueChanged
 
     private void txtLinkedinHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLinkedinHistorialMouseClicked
@@ -373,7 +378,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
                 try {
                     java.awt.Desktop.getDesktop().browse(new java.net.URI(linkedin));
                 } catch(java.io.IOException | java.net.URISyntaxException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "URL inválida", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }

@@ -149,7 +149,8 @@ public class Sistema extends Observable implements Serializable {
             
             Utility.validarNumero(anioIngreso);
             
-            if(Integer.parseInt(anioIngreso) > 2023) {
+            int anio = Integer.parseInt(anioIngreso);
+            if( anio < 1970 && anio > 2023) {
                throw new ErrorAnioValido();
             }
         }
@@ -212,38 +213,42 @@ public class Sistema extends Observable implements Serializable {
         if(!existeNombre) {
             Puesto nuevoPuesto = new Puesto(unNombre, tipo, temas);
             this.listaPuestos.add(nuevoPuesto);
+            setChanged();
+            notifyObservers(); 
         } else {
             throw new ErrorNombreRepetido(unNombre);
-        }
-        
+        }       
     }
     
     public boolean eliminarPostulante(String cedula) {
         boolean existeCedula = this.validarExisteCedula(cedula);
 
-        if (existeCedula) {          
-            Iterator<Postulante> iterator = this.listaPostulantes.iterator();
-            Iterator<Persona> iterator2 = this.listaPersonas.iterator();
-
-            while(iterator2.hasNext()) {
-                Persona p = iterator2.next();
-                if (p.getCedula().equals(cedula)) {
-                    iterator2.remove();
-                }
-            }
-
+        if (existeCedula) {
             Postulante unPostulante = this.obtenerPostulante(cedula);
             this.eliminarEntrevistasPostulante(unPostulante);
 
+            ArrayList<Postulante> copiaPostulantes = new ArrayList<>(this.listaPostulantes);
+            ArrayList<Persona> copiaPersonas = new ArrayList<>(this.listaPersonas);
+
+            Iterator<Postulante> iterator = copiaPostulantes.iterator();
             while (iterator.hasNext()) {
                 Postulante p = iterator.next();
                 if (p.getCedula().equals(cedula)) {
-                    iterator.remove();
+                    this.listaPostulantes.remove(p);
                     setChanged();
                     notifyObservers();
                 }
             }
+
+            Iterator<Persona> iterator2 = copiaPersonas.iterator();
+            while (iterator2.hasNext()) {
+                Persona p = iterator2.next();
+                if (p.getCedula().equals(cedula)) {
+                    this.listaPersonas.remove(p);
+                }
+            }
         }
+
         return existeCedula;
     }
     
@@ -393,7 +398,7 @@ public class Sistema extends Observable implements Serializable {
                 cantidad++;
             }
         }
-        
+
         return cantidad;
     }
 }

@@ -28,7 +28,7 @@ public class ConsultaTematica extends javax.swing.JFrame implements Observer {
     }
     
     public void update(Observable o, Object ob) {
-        cargarLista();
+       cargarLista();
     }
     
     public void cargarLista() {
@@ -143,13 +143,15 @@ public class ConsultaTematica extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaTematicasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaTematicasValueChanged
-        Tematica tematicaSeleccionada = (Tematica) listaTematicas.getSelectedValue();
-        
-        int cantidadPostulantes = sistema.cantidadPostulantesSuperanNivel5(tematicaSeleccionada);
-        int cantidadPuestos = sistema.cantidadPuestosRequierenTematica(tematicaSeleccionada);
-        
-        txtNumeroPostulantes.setText(String.valueOf(cantidadPostulantes));
-        txtNumeroPuestos.setText(String.valueOf(cantidadPuestos));
+        if( listaTematicas.getSelectedValue() != null) {
+            Tematica tematicaSeleccionada = (Tematica) listaTematicas.getSelectedValue();
+
+            int cantidadPostulantes = sistema.cantidadPostulantesSuperanNivel5(tematicaSeleccionada);
+            int cantidadPuestos = sistema.cantidadPuestosRequierenTematica(tematicaSeleccionada);
+
+            txtNumeroPostulantes.setText(String.valueOf(cantidadPostulantes));
+            txtNumeroPuestos.setText(String.valueOf(cantidadPuestos));  
+        }
     }//GEN-LAST:event_listaTematicasValueChanged
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

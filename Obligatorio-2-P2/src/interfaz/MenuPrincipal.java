@@ -275,7 +275,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         out.writeObject(this.sistema);
         out.close();
     } catch (IOException ex) {
-        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, "Error al escribir en el archivo", ex);
+        System.out.println("Error al escribir en el archivo");
     } 
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables

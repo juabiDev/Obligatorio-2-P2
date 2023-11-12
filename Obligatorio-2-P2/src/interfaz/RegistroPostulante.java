@@ -234,7 +234,7 @@ public class RegistroPostulante extends javax.swing.JFrame {
             ventanaAux.setLocation(50, 50);
             ventanaAux.setSize(500, 325);
             ventanaAux.setVisible(true);
-        } catch (ErrorCamposVacios | ErrorCedulaExistente ex) {
+        } catch (ErrorCamposVacios | ErrorCedulaExistente | NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSiguientePostulanteActionPerformed
