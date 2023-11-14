@@ -150,7 +150,7 @@ public class Sistema extends Observable implements Serializable {
             Utility.validarNumero(anioIngreso);
             
             int anio = Integer.parseInt(anioIngreso);
-            if( anio < 1970 && anio > 2023) {
+            if( anio < 1970 || anio > 2023) {
                throw new ErrorAnioValido();
             }
         }
