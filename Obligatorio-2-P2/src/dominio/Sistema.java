@@ -23,6 +23,7 @@ public class Sistema extends Observable implements Serializable {
     private ArrayList<Persona> listaPersonas;
     private ArrayList<Entrevista> listaEntrevistas;
     private ArrayList<Puesto> listaPuestos;
+    private static int nroEntrevista = 1;
     
     public Sistema() {
         this.listaTematicas = new ArrayList<>();
@@ -179,10 +180,11 @@ public class Sistema extends Observable implements Serializable {
             }
         }
         
-        Entrevista nuevaEntrevista = new Entrevista(postulante, evaluador, puntaje, comentarios);   
+        Entrevista nuevaEntrevista = new Entrevista(nroEntrevista, postulante, evaluador, puntaje, comentarios);   
         this.listaEntrevistas.add(nuevaEntrevista);
         int identificador = nuevaEntrevista.getNroEntrevista();
         nuevaEntrevista.setNroEntrevista(identificador);
+        Sistema.nroEntrevista++;
         setChanged();
         notifyObservers(); 
         return identificador;
@@ -337,7 +339,7 @@ public class Sistema extends Observable implements Serializable {
         Entrevista e = null;
         boolean encontrado = false;
 
-        for(int i = this.listaEntrevistas.size() - 1; i > 0 && !encontrado; i--) {
+        for(int i = this.listaEntrevistas.size() - 1; i >= 0 && !encontrado; i--) {
             if(this.listaEntrevistas.get(i).getPostulante().equals(unPostulante)) {
                 e = this.listaEntrevistas.get(i);
                 encontrado = true;

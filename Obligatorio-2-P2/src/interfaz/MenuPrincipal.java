@@ -34,9 +34,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 Sistema s = (Sistema) in.readObject();
                 this.sistema = s;
 
-                // Establecer el valor correcto de CantidadEntrevistas después de la deserialización
-                Entrevista.setCantidadEntrevistas(sistema.getEntrevistas().size() + 1);
-
             } catch (IOException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(this, "No se encontraron datos, se inicia el sistema vacío", "Error", JOptionPane.ERROR_MESSAGE);
                 this.sistema = new Sistema();
