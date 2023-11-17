@@ -89,7 +89,7 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
         listaPuestos = new javax.swing.JList();
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consulta Puesto");
@@ -127,10 +127,10 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
             }
         });
 
-        jButton3.setText("Exportar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnExportarActionPerformed(evt);
             }
         });
 
@@ -157,7 +157,7 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -188,7 +188,7 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnExportar))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
 
@@ -202,15 +202,17 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         ArchivoGrabacion arch = null;
 
         if(postulantesFiltrados.size() > 0 && puestoSeleccionado != null) {
             sistema.grabarArchivoConsulta(arch, postulantesFiltrados, puestoSeleccionado);
+            JOptionPane.showMessageDialog(this, "Exportación de puestos exitosa", "OK", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "No hay datos para generar archivo", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnExportarActionPerformed
 
     private void btnConsultarPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPuestoActionPerformed
         if(listaPuestos.getSelectedValue() == null) {
@@ -218,15 +220,15 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
         } else {
             puestoSeleccionado = (Puesto) listaPuestos.getSelectedValue();
             int nivel = (int) txtNivel.getValue();
-
             cargarListaPostulantes(puestoSeleccionado,nivel);
+
         }
     }//GEN-LAST:event_btnConsultarPuestoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultarPuesto;
+    private javax.swing.JButton btnExportar;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

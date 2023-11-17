@@ -1,2 +1,5 @@
-Consulta para Puesto: Puesssto
-Psotu - 12332321 - sas
+Consulta para Puesto: Desarrollador Backend NodeJS
+Dana - 432 - dw
+fabi - 1234 - dw
+pepe - 859 - w
+Juan - 5423 - w
