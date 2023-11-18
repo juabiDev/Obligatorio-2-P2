@@ -35,6 +35,11 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         cargarLista();
     }
     
+    public void resetear() {
+        listaPostulantes.setListData( sistema.getPostulantes().toArray());
+        cargarTabla();
+    }    
+    
     public void cargarLista() {
         ArrayList<Postulante> listaAux = sistema.getPostulantes();
         
@@ -96,8 +101,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     }
     
     public void update(Observable o, Object ob) {
-        cargarLista();
-        cargarTabla();
+        resetear();
         if(postulante != null) {
             listaPostulantes.setSelectedValue(postulante, true);
         }

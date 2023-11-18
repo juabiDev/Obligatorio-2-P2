@@ -297,8 +297,7 @@ public class Sistema extends Observable implements Serializable {
                     }   
                 } else {
                     loTiene = false;
-                }
-                
+                }               
             }
 
             if(p.getFormato().equalsIgnoreCase(formaTrabajo) && loTiene) {

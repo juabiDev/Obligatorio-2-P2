@@ -12,8 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -257,8 +255,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jItemCHistorialActionPerformed
 
     private void jItemFCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jItemFCerrarActionPerformed
-        this.guardarData();           
-        this.dispose();
+        this.guardarData();
+        System.exit(0);
     }//GEN-LAST:event_jItemFCerrarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -294,36 +292,4 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     // End of variables declaration//GEN-END:variables
-
-    /* private void guardarData() {
-        FileOutputStream ff = null;
-        try {
-            ff = new FileOutputStream("sistema.txt");
-            BufferedOutputStream b = new BufferedOutputStream(ff);
-            ObjectOutputStream so = null;
-           try {
-               so = new ObjectOutputStream(b);
-           } catch (IOException ex) {
-               Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-           }
-           try {
-               so.writeObject(this.sistema);
-           } catch (IOException ex) {
-               Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-           }
-           try {
-               so.close();
-           } catch (IOException ex) {
-               Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-           }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                ff.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    } */
 }
