@@ -141,13 +141,10 @@ public class RegistroTematica extends javax.swing.JFrame {
         String descripcion = txtDescripcionTematica.getText();
        
         try {
-            System.out.println("aca1");
             sistema.agregarTematica(nombre, descripcion);
             JOptionPane.showMessageDialog(this, "Temática creada", "OK", JOptionPane.INFORMATION_MESSAGE);
-            System.out.println("aca2");
             resetearCampos();   
         } catch (ErrorCamposVacios | ErrorNombreRepetido | HeadlessException ex) {
-            System.out.println("aca3");
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarTematicaActionPerformed
