@@ -100,6 +100,18 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
         }
     }
     
+    public void limpiarDatosPostulante() {
+        textArea.setText("");
+        txtCedulaHistorial.setText("");
+        txtNombreHistorial.setText("");
+        txtMailHistorial.setText("");
+        txtDireccionHistorial.setText("");
+        txtTelefonoHistorial.setText("");
+        txtFormatoHistorial.setText("");
+
+        txtLinkedinHistorial.setText("");
+    }
+    
     public void update(Observable o, Object ob) {
         resetear();
         if(postulante != null) {
@@ -372,6 +384,9 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
             postulante = sistema.obtenerPostulante(((Postulante) listaPostulantes.getSelectedValue()).getCedula());
             cargarTabla();
             cargarDatosPostulante();            
+        } else {
+            // Caso cuando se da de baja un postulante
+            limpiarDatosPostulante();
         }
     }//GEN-LAST:event_listaPostulantesValueChanged
 

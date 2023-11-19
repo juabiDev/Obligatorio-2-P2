@@ -67,6 +67,7 @@ public class RegistroPostulante extends javax.swing.JFrame {
         btnCancelarPostulante = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registro Postulante");
         getContentPane().setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
