@@ -55,6 +55,7 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
             postulantesFiltrados = sistema.obtenerPostulantesParaPuesto(unPuesto,nivel);
             if(postulantesFiltrados.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay Postulantes para este puesto", "OK", JOptionPane.INFORMATION_MESSAGE);
+                listaPostulantes.setListData(new Object[0]); // Limpia la lista de postulantes (caso borde se elimina el ultimo postulante)
             } else {
                 listaPostulantes.setListData(postulantesFiltrados.toArray());
             }
@@ -65,6 +66,12 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
     
     public void update(Observable o, Object ob) {
         resetear();
+        // caso cuando se da de baja o agrega un postulante
+        if(puestoSeleccionado != null) {
+            listaPuestos.setSelectedValue(puestoSeleccionado, true);
+            int nivel = (int) txtNivel.getValue();
+            cargarListaPostulantes(puestoSeleccionado,nivel);
+        }
     }
 
     /**
@@ -116,6 +123,11 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
         });
 
         listaPuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaPuestos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaPuestosValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(listaPuestos);
 
         jLabel4.setText("Postulantes:");
@@ -224,6 +236,10 @@ public class ConsultaPuesto extends javax.swing.JFrame implements Observer{
 
         }
     }//GEN-LAST:event_btnConsultarPuestoActionPerformed
+
+    private void listaPuestosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPuestosValueChanged
+
+    }//GEN-LAST:event_listaPuestosValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultarPuesto;

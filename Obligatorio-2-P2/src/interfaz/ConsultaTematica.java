@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
  */
 public class ConsultaTematica extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
+    private Tematica tematica;
     
     public ConsultaTematica(Sistema unSistema) {
         sistema = unSistema;
@@ -29,6 +30,10 @@ public class ConsultaTematica extends javax.swing.JFrame implements Observer {
     
     public void update(Observable o, Object ob) {
        cargarLista();
+        if(tematica != null) {
+            cargarDatosConsulta();
+            listaTematicas.setSelectedValue(tematica, true);
+        }
     }
     
     public void cargarLista() {
@@ -42,6 +47,18 @@ public class ConsultaTematica extends javax.swing.JFrame implements Observer {
         } else {
             listaTematicas.setListData(sistema.getTematicas().toArray());
         }    
+    }
+    
+    public void cargarDatosConsulta() {
+        if( listaTematicas.getSelectedValue() != null) {
+            tematica = (Tematica) listaTematicas.getSelectedValue();
+
+            int cantidadPostulantes = sistema.cantidadPostulantesSuperanNivel5(tematica);
+            int cantidadPuestos = sistema.cantidadPuestosRequierenTematica(tematica);
+
+            txtNumeroPostulantes.setText(String.valueOf(cantidadPostulantes));
+            txtNumeroPuestos.setText(String.valueOf(cantidadPuestos));  
+        }
     }
 
     /**
@@ -143,15 +160,7 @@ public class ConsultaTematica extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaTematicasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaTematicasValueChanged
-        if( listaTematicas.getSelectedValue() != null) {
-            Tematica tematicaSeleccionada = (Tematica) listaTematicas.getSelectedValue();
-
-            int cantidadPostulantes = sistema.cantidadPostulantesSuperanNivel5(tematicaSeleccionada);
-            int cantidadPuestos = sistema.cantidadPuestosRequierenTematica(tematicaSeleccionada);
-
-            txtNumeroPostulantes.setText(String.valueOf(cantidadPostulantes));
-            txtNumeroPuestos.setText(String.valueOf(cantidadPuestos));  
-        }
+        cargarDatosConsulta();
     }//GEN-LAST:event_listaTematicasValueChanged
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
