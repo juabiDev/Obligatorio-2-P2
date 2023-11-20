@@ -35,6 +35,10 @@ public class RegistroPostulante extends javax.swing.JFrame {
         txtMailPostulante.setText("");
         txtPostulanteLinkedin.setText("");
         buttonGroup1.clearSelection();
+
+    }
+    
+    public void setVentanaExperienciaAbierta() {
         ventanaExperienciaAbierta = false;
     }
 

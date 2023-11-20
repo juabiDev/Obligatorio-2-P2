@@ -84,6 +84,11 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Experiencia Postulante");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         jLabel2.setText("Tema:");
@@ -235,6 +240,7 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.dispose();
+        referencia.setVentanaExperienciaAbierta();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnRegistrarPostulanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPostulanteActionPerformed
@@ -244,6 +250,7 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
             JOptionPane.showMessageDialog(this, "Postulante creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             referencia.resetearCampos();
+            referencia.setVentanaExperienciaAbierta();
         } catch (ErrorPostulanteConTema | HeadlessException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -252,6 +259,10 @@ public class ExperienciaPostulante extends javax.swing.JFrame implements Observe
     private void listaTemasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaTemasValueChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_listaTemasValueChanged
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        referencia.setVentanaExperienciaAbierta();
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
