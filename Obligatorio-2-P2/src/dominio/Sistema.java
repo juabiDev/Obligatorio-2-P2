@@ -23,7 +23,7 @@ public class Sistema extends Observable implements Serializable {
     private ArrayList<Persona> listaPersonas;
     private ArrayList<Entrevista> listaEntrevistas;
     private ArrayList<Puesto> listaPuestos;
-    private static int nroEntrevista = 1;
+    private int nroEntrevista;
     
     public Sistema() {
         this.listaTematicas = new ArrayList<>();
@@ -32,6 +32,7 @@ public class Sistema extends Observable implements Serializable {
         this.listaEntrevistas = new ArrayList<>();
         this.listaPuestos = new ArrayList<>();
         this.listaPersonas = new ArrayList<>();
+        nroEntrevista = 1;
     }
     
     public ArrayList<Tematica> getTematicas() {
@@ -183,7 +184,7 @@ public class Sistema extends Observable implements Serializable {
         this.listaEntrevistas.add(nuevaEntrevista);
         int identificador = nuevaEntrevista.getNroEntrevista();
         nuevaEntrevista.setNroEntrevista(identificador);
-        Sistema.nroEntrevista++;
+        nroEntrevista++;
         setChanged();
         notifyObservers(); 
         return identificador;

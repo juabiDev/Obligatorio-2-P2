@@ -4,7 +4,6 @@
  */
 package interfaz;
 
-import dominio.Entrevista;
 import dominio.Sistema;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,7 +30,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 in = new ObjectInputStream(new FileInputStream(path));
                 Sistema s = (Sistema) in.readObject();
                 this.sistema = s;
-
             } catch (IOException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(this, "No se encontraron datos, se inicia el sistema vacío", "Error", JOptionPane.ERROR_MESSAGE);
                 this.sistema = new Sistema();
