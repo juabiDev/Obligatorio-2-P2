@@ -36,7 +36,7 @@ public class HistorialPostulante extends javax.swing.JFrame implements Observer{
     }
     
     public void resetear() {
-        listaPostulantes.setListData( sistema.getPostulantes().toArray());
+        cargarLista();
         cargarTabla();
     }    
     

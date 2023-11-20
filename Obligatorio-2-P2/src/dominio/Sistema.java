@@ -134,7 +134,6 @@ public class Sistema extends Observable implements Serializable {
         for(Postulante unPostulante : this.listaPostulantes) {
             if(unPostulante.getCedula().equals(unaCedula)) {
                 unPostulante.getTemas().put(unNombre,unNivel);
-                System.out.println("se agregó tema a postulante");
             }
         }
     }
