@@ -160,7 +160,7 @@ public class RegistroEvaluador extends javax.swing.JFrame {
             sistema.agregarEvaluador(nombre, cedula, direccion, anio);
             JOptionPane.showMessageDialog(this, "Evaluador creado con éxito", "OK", JOptionPane.INFORMATION_MESSAGE);
             this.resetearCampos();
-        } catch (ErrorAnioValido | ErrorCamposVacios | ErrorCedulaExistente | HeadlessException ex) {
+        } catch (ErrorAnioValido | ErrorCamposVacios | ErrorCedulaExistente | HeadlessException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistroEvaluadorActionPerformed

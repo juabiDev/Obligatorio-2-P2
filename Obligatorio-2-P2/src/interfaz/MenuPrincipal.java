@@ -4,6 +4,7 @@
  */
 package interfaz;
 
+import dominio.Entrevista;
 import dominio.Sistema;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

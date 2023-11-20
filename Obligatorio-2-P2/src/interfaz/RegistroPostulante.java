@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 public class RegistroPostulante extends javax.swing.JFrame {
     private Sistema sistema;
     private String formatoaux = "";
+    private boolean ventanaExperienciaAbierta = false;
 
     public RegistroPostulante(Sistema unSistema) {
         sistema = unSistema;
@@ -230,11 +231,17 @@ public class RegistroPostulante extends javax.swing.JFrame {
         String formato = formatoaux;
         
         try {
-            Postulante p = sistema.setearPostulante(nombre, cedula, direccion, telefono, mail, linkedin, formato);
-            ExperienciaPostulante ventanaAux = new ExperienciaPostulante(sistema, p, this);
-            ventanaAux.setLocation(50, 50);
-            ventanaAux.setSize(500, 325);
-            ventanaAux.setVisible(true);
+            if (!ventanaExperienciaAbierta) {
+                Postulante p = sistema.setearPostulante(nombre, cedula, direccion, telefono, mail, linkedin, formato);
+                ExperienciaPostulante ventanaAux = new ExperienciaPostulante(sistema, p, this);
+                ventanaAux.setLocation(50, 50);
+                ventanaAux.setSize(500, 325);
+                ventanaAux.setVisible(true);
+
+                ventanaExperienciaAbierta = true;
+            } else {
+                JOptionPane.showMessageDialog(this, "La ventana de experiencia ya está abierta.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
         } catch (ErrorCamposVacios | ErrorCedulaExistente | NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
