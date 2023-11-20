@@ -382,7 +382,7 @@ public class Sistema extends Observable implements Serializable {
         for(Postulante p : this.listaPostulantes) {
             for(Map.Entry<String,String> entry : p.getTemas().entrySet()) {
                 int nivel = Integer.parseInt(entry.getValue());
-                if(entry.getKey().equalsIgnoreCase(t.getNombre()) && nivel >= 5) {
+                if(entry.getKey().equalsIgnoreCase(t.getNombre()) && nivel > 5) {
                     cantidad++;
                 }
             }
