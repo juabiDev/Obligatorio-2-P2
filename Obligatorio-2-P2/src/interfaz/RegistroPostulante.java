@@ -18,10 +18,11 @@ import javax.swing.JOptionPane;
 public class RegistroPostulante extends javax.swing.JFrame {
     private Sistema sistema;
     private String formatoaux = "";
-    private boolean ventanaExperienciaAbierta = false;
+    private boolean ventanaExperienciaAbierta;
 
     public RegistroPostulante(Sistema unSistema) {
         sistema = unSistema;
+        ventanaExperienciaAbierta = false;
         initComponents();
         this.setSize(630, 450);
     }
@@ -34,6 +35,7 @@ public class RegistroPostulante extends javax.swing.JFrame {
         txtMailPostulante.setText("");
         txtPostulanteLinkedin.setText("");
         buttonGroup1.clearSelection();
+        ventanaExperienciaAbierta = false;
     }
 
     /**
